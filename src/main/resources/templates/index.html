@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-
 <head>
     <title>Example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -13,7 +12,6 @@
 </head>
 
 <body ng-app="mainApp">
-<!-- /.container -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -31,8 +29,12 @@
                 <li><a href="#/example">Example</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Profile</a></li>
-                <li><a href="#">Help</a></li>
+                <li>
+                    <a href="/logout" th:if="${#httpServletRequest.remoteUser != null}" th:inline="text">
+                        Logout [[${#httpServletRequest.remoteUser}]]
+                    </a>
+                    <a href="/login" th:if="${#httpServletRequest.remoteUser == null}" th:inline="text">Login</a>
+                </li>
             </ul>
         </div>
     </div>

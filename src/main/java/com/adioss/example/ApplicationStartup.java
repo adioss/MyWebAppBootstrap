@@ -46,19 +46,6 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
         List<Example> all = exampleRepository.findAll();
     }
 
-    //private User createUser() {
-    //    User userInformation = userService.createUserInformation("user", "user", "user", "user", "user@bimbingo.com", "en");
-    //    userInformation.setActivated(true);
-    //    return userRepository.save(userInformation);
-    //}
-    //
-    //private User createAdminUser() {
-    //    User userInformation = userService.createUserInformation("admin", "admin", "admin", "admin", "admin@bimbingo.com", "en");
-    //    userInformation.setActivated(true);
-    //    userInformation.getAuthorities().add(authorityRepository.findOne(ADMIN));
-    //    return userRepository.save(userInformation);
-    //}
-    //
     private void initAuthorities() {
         //    initAuthority(AuthoritiesConstants.ADMIN);
         //    initAuthority(AuthoritiesConstants.USER);

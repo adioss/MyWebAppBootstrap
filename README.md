@@ -1,13 +1,21 @@
 # README #
 
 My simple webapp bootstrap:
-    backend: spring boot + mongo
-    frontend: angular(v1) + bootstrap + browserify + tooling(grunt, karma, jasmine)
+
+* backend
+    * spring boot
+    * mongodb
+    * basic auth
+    * use com.github.eirslett frontend mvn plugin to install node/npm and launch karma/grunt jobs (browserify, launch test...)
+* frontend
+    * angular(v1)
+    * bootstrap
+    * browserify
+    * tooling(grunt, karma, jasmine)
 
 ### What is this repository for? ###
 
 * My own project quick boot/capitalisation
-
 
 ### How do I get set up? ###
 * Install archetype
@@ -32,7 +40,7 @@ My simple webapp bootstrap:
 
 * Dependencies
 * Database configuration
-    mongod --dbpath {path}\db --port 12345
+    mongod --dbpath %MONGO_HOME%\db --port 12345
 
 
 * How to run tests

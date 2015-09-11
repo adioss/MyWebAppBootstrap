@@ -9,7 +9,10 @@ spring:
             host: localhost
             port: 12345
             database: example
-
+security:
+    user:
+        name: admin
+        password: admin
 #metrics:
 #    jmx.enabled: true
 #    spark:
