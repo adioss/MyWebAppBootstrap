@@ -28,19 +28,19 @@ My simple webapp bootstrap:
    * Start main...
 
 * Some ueful commands
-    mvn frontend:install-node-and-npm
-    mvn frontend:npm
+   * mvn frontend:install-node-and-npm
+   * mvn frontend:npm
 
-    {path}\node_modules\.bin>browserify.cmd {path}\src\main\resources\static\js\app.js -o {path}\src\main\resources\static\js\app.bundle.js
-    grunt --gruntfile {path}\Gruntfile.js browserify:js
-    grunt watch
+   * {path}\node_modules\.bin>browserify.cmd {path}\src\main\resources\static\js\app.js -o {path}\src\main\resources\static\js\app.bundle.js
+   * grunt --gruntfile {path}\Gruntfile.js browserify:js
+   * grunt watch
 
 * Configuration
-    --spring.profiles.active=dev in program arguments
+   * --spring.profiles.active=dev in program arguments
 
 * Dependencies
 * Database configuration
-    mongod --dbpath %MONGO_HOME%\db --port 12345
+   * mongod --dbpath %MONGO_HOME%\db --port 12345
 
 
 * How to run tests
