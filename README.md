@@ -19,13 +19,13 @@ My simple webapp bootstrap:
 
 ### How do I get set up? ###
 * Install archetype
-    checkout
-    mvn archetype:create-from-project
-    mvn install
-    mvn archetype:generate -DarchetypeCatalog=local
+   * checkout
+   * mvn archetype:create-from-project
+   * mvn install
+   * mvn archetype:generate -DarchetypeCatalog=local
 * Summary of set up
-    mvn clean package
-    Start main...
+   * mvn clean package
+   * Start main...
 
 * Some ueful commands
     mvn frontend:install-node-and-npm
