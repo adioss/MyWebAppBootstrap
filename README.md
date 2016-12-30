@@ -30,7 +30,7 @@ My simple webapp bootstrap V2:
    * --spring.profiles.active=dev in program arguments
 
 ### CI
-[![Build Status](https://travis-ci.org/adioss/MyWebAppBootstrap.svg?branch=master)](https://travis-ci.org/adioss/MyWebAppBootstrap)
+Travis CI : [![Build Status](https://travis-ci.org/adioss/MyWebAppBootstrap.svg?branch=master)](https://travis-ci.org/adioss/MyWebAppBootstrap)
 
 ### CD 
 https://mywebappbootstrap.herokuapp.com
