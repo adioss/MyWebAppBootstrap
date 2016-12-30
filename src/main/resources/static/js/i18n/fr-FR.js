@@ -21,7 +21,7 @@ export default {
         'menu.users.link': 'UTILISATEURS',
         // home page
         'home.title': 'Home page',
-        'home.example.label': 'Ici un example basic de composant react:',
+        'home.example.label': 'Ici un exemple basic de composant react:',
         'home.example.number.label': 'Nombre:',
         'home.example.button.increase.label': 'Augmenter',
         'home.example.button.decrease.label': 'Diminuer',

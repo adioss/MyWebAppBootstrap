@@ -34,3 +34,6 @@ My simple webapp bootstrap V2:
 
 ### CD 
 https://mywebappbootstrap.herokuapp.com
+* users:
+    * admin/admin
+    * test/test
