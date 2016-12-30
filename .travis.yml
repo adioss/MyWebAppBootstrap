@@ -1,0 +1,14 @@
+language: java
+jdk:
+  - oraclejdk8
+
+env:
+  - NODE_VERSION=4.4.3
+
+install:
+  - nvm install $NODE_VERSION
+  - npm install
+
+before_script:
+  - nvm use $NODE_VERSION
+

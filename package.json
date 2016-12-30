@@ -1,34 +1,65 @@
 {
-  "name": "absorbdaweb",
+  "name": "MyReactBootstrap",
   "version": "0.0.1",
+  "description": "My React Bootstrap project.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "TODO"
+  },
+  "scripts": {
+    "start": "set NODE_ENV=development && webpack --watch --display-error-details",
+    "test": "jest",
+    "test:watch": "npm test -- --watch"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "target/"
+    ]
+  },
   "dependencies": {
-    "jquery": "^2.1.3",
-    "angular": "^1.3.15",
-    "angular-bootstrap-npm": "^0.12.3",
-    "angular-route": "^1.3.15",
-    "ng-grid": "^2.0.1",
-    "underscore": "^1.8.3"
+    "classnames": "^2.2.5",
+    "immutable": "^3.8.1",
+    "lodash": "^4.16.4",
+    "rc-pagination": "^1.5.5",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "react-addons-css-transition-group": "^15.4.1",
+    "react-addons-shallow-compare": "^15.4.1",
+    "react-intl": "^2.1.5",
+    "react-intl-redux": "^0.2.0",
+    "react-modal": "^1.5.2",
+    "react-notification-system": "^0.2.10",
+    "react-redux": "^5.0.1",
+    "react-router": "^3.0.0",
+    "react-router-redux": "^4.0.5",
+    "react-selectize": "^2.1.0",
+    "react-tether": "^0.5.2",
+    "redux": "^3.5.2"
   },
   "devDependencies": {
-    "angular-mocks": "^1.4.5",
-    "angular-scenario": "^1.4.5",
-    "browserify": "^9.0.8",
-    "browserify-shim": "^3.8.5",
-    "grunt": "^0.4.5",
-    "grunt-browserify": "^3.7.0",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-jshint": "^0.11.1",
-    "grunt-contrib-uglify": "^0.9.1",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-karma": "^0.10.1",
-    "grunt-watchify": "^0.1.0",
-    "jasmine-core": "^2.2.0",
-    "karma": "^0.12.31",
-    "karma-browserify": "^4.3.0",
-    "karma-jasmine": "^0.3.5",
-    "karma-ng-html2js-preprocessor": "^0.1.2",
-    "karma-ng-scenario": "^0.1.0",
-    "karma-phantomjs-launcher": "^0.1.4",
-    "watchify": "^3.1.1"
+    "babel-core": "^6.8.0",
+    "babel-eslint": "^7.1.1",
+    "babel-jest": "^17.0.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "browser-sync": "^2.12.8",
+    "browser-sync-webpack-plugin": "^1.0.1",
+    "css-loader": "^0.26.1",
+    "enzyme": "^2.6.0",
+    "eslint": "^3.10.2",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-classes": "^0.1.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-react": "^6.7.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "jest": "^17.0.3",
+    "react-addons-test-utils": "^15.4.1",
+    "react-hot-loader": "^1.3.0",
+    "react-test-renderer": "^15.4.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.0"
   }
 }
