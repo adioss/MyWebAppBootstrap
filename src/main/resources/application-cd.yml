@@ -4,4 +4,4 @@ server:
 cors:
   allowed:
     origins:
-      - http://localhost:8080
+      - https://mywebappbootstrap.herokuapp.com

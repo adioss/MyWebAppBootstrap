@@ -29,4 +29,8 @@ My simple webapp bootstrap V2:
 * Configuration
    * --spring.profiles.active=dev in program arguments
 
-* Deployment instructions
+### CI
+[![Build Status](https://travis-ci.org/adioss/MyWebAppBootstrap.svg?branch=master](https://travis-ci.org/adioss/MyWebAppBootstrap)
+
+### CD 
+https://mywebappbootstrap.herokuapp.com

@@ -30,6 +30,7 @@ import static java.util.Collections.singletonList;
 @SpringBootApplication
 public class Application {
     public static final String DEV_PROFILE = "dev";
+    private static final String CD_PROFILE = "cd";
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     private final Environment environment;
@@ -64,7 +65,7 @@ public class Application {
             log.info("Start done.");
 
             List<String> activeProfiles = Arrays.asList(environment.getActiveProfiles());
-            if (activeProfiles.contains(DEV_PROFILE)) {
+            if (activeProfiles.contains(DEV_PROFILE) || activeProfiles.contains(CD_PROFILE)) {
                 for (int i = 0; i < 100; i++) {
                     Enterprise enterprise = new Enterprise("testEnterprise" + i, "http://testEnterprise.com");
                     enterpriseRepository.save(enterprise);
