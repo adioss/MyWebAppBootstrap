@@ -27,7 +27,7 @@ My simple webapp bootstrap V2:
         * npm run test:watch
 
 * Configuration
-   * -Dspring.profiles.active=dev in program arguments
+   * -Dspring.profiles.active=dev as VM arguments
 
 ### CI
 Travis CI : [![Build Status](https://travis-ci.org/adioss/MyWebAppBootstrap.svg?branch=master)](https://travis-ci.org/adioss/MyWebAppBootstrap)
