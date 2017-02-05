@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "TODO"
+    "url": "https://github.com/adioss/MyWebAppBootstrap"
   },
   "scripts": {
     "start": "set NODE_ENV=development && webpack --watch --display-error-details",
