@@ -1,6 +1,7 @@
 package com.adioss.bootstrap.config;
 
-import com.adioss.bootstrap.domain.Role;
+import java.util.ArrayList;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +19,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.adioss.bootstrap.domain.Role;
 
 import static com.adioss.bootstrap.Application.DEV_PROFILE;
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
+import static java.util.Arrays.*;
+import static java.util.Collections.*;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration
@@ -83,9 +82,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return getConcern("default-src", "'none'") +
                 getConcern("script-src", getDevScriptSrcCspPolicy()) +
                 getConcern("connect-src", getDevConnectSrcCspPolicy()) +
-                getConcern("img-src", "'self'") +
-                getConcern("style-src", "'self'", "'unsafe-inline'", "https://opensource.keycdn.com") +
-                getConcern("font-src", "'self'", "https://opensource.keycdn.com") +
+                getConcern("img-src", "'self'") + getConcern("style-src", "'self'", "'unsafe-inline'", "https://opensource.keycdn.com",
+                                                             "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com") + getConcern("font-src", "'self'",
+                                                                                                                                          "https://opensource.keycdn.com",
+                                                                                                                                          "https://cdnjs.cloudflare.com",
+                                                                                                                                          "https://fonts.googleapis.com",
+                                                                                                                                          "https://fonts.gstatic.com",
+                                                                                                                                          "data:") +
                 "report-uri /cspReport";
     }
 

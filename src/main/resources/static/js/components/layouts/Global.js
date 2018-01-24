@@ -30,36 +30,30 @@ class Global extends React.Component {
         super(props);
         this.state = {
             menuLink: props.menuLink,
-            layout: props.layout,
-            menu: props.menu,
+            layout:   props.layout,
+            menu:     props.menu,
         };
     }
 
     componentDidMount() {
         init(this.refs.notificationSystem, this.props.intl);
-        get(
-            (user) => {
-                const language = [eni18n, fri18n].find((item) => item.language === user.language);
-                getStore().dispatch(updateIntl(language));
-                getStore().dispatch(getCurrentUserSuccess(user));
-            }
-        );
+        get((user) => {
+            const language = [eni18n, fri18n].find((item) => item.language === user.language);
+            getStore().dispatch(updateIntl(language));
+            getStore().dispatch(getCurrentUserSuccess(user));
+        });
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState(
-            Object.assign({}, this.state, {currentUser: nextProps.currentUser})
-        );
+        this.setState(Object.assign({}, this.state, {currentUser: nextProps.currentUser}));
     }
 
     onMenuButtonClick() {
-        this.setState(
-            {
-                'menuLink': this.state.menuLink == 'menu-link' ? 'menu-link active' : 'menu-link',
-                'layout': this.state.layout == '' ? 'active' : '',
-                'menu': this.state.menu == '' ? 'active' : ''
-            }
-        );
+        this.setState({
+            'menuLink': this.state.menuLink == 'menu-link' ? 'menu-link active' : 'menu-link',
+            'layout':   this.state.layout == '' ? 'active' : '',
+            'menu':     this.state.menu == '' ? 'active' : ''
+        });
     }
 
     render() {
@@ -133,38 +127,35 @@ class Global extends React.Component {
 }
 
 Global.propTypes = {
-    intl: intlShape.isRequired,
+    intl:        intlShape.isRequired,
     currentUser: React.PropTypes.shape({
-                                           id: React.PropTypes.number.isRequired,
-                                           username: React.PropTypes.string.isRequired,
-                                           email: React.PropTypes.string.isRequired,
-                                           roles: React.PropTypes.arrayOf(
-                                               React.PropTypes.oneOf([ADMIN_ROLE, USER_ROLE])
-                                           )
-                                       }
-    ),
-    avatarUrl: React.PropTypes.string.isRequired
+        id:       React.PropTypes.number.isRequired,
+        username: React.PropTypes.string.isRequired,
+        email:    React.PropTypes.string.isRequired,
+        roles:    React.PropTypes.arrayOf(React.PropTypes.oneOf([ADMIN_ROLE, USER_ROLE]))
+    }),
+    avatarUrl:   React.PropTypes.string.isRequired
 };
 
 Global.propTypes = {
-    menuLink: React.PropTypes.string,
-    layout: React.PropTypes.string,
-    menu: React.PropTypes.string,
+    menuLink:  React.PropTypes.string,
+    layout:    React.PropTypes.string,
+    menu:      React.PropTypes.string,
     avatarUrl: React.PropTypes.string,
-    children: React.PropTypes.object
+    children:  React.PropTypes.object
 };
 
 Global.defaultProps = {
-    menuLink: 'menu-link',
-    layout: '',
-    menu: '',
+    menuLink:  'menu-link',
+    layout:    '',
+    menu:      '',
     avatarUrl: '/api/avatars/-1'
 };
 
 const mapStateToProps = (state) => {
     return {
         currentUser: state.currentUserReducer.get('currentUser'),
-        avatarUrl: state.currentUserReducer.get('avatarUrl')
+        avatarUrl:   state.currentUserReducer.get('avatarUrl')
     };
 };
 

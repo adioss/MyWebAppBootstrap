@@ -19,13 +19,11 @@ describe('Enterprise list component', () => {
                     enzymeWrapper = mountWithIntl(<EnterpriseList {...props}/>, {});
 
                     // Then
-                    expect(enzymeWrapper.find('h1').hasClass('principal-content-title')).toBe(true);
-                    expect(enzymeWrapper.find('h1').text()).toBe('Enterprise list');
-                    expect(enzymeWrapper.find('h1').length).toBe(1);
-                    expect(enzymeWrapper.find('div').length).toBe(6);
+                 expect(enzymeWrapper.find('div.sub.header').text()).toBe('Manage enterprises');
+                 expect(enzymeWrapper.find('div').length).toBe(4);
                     expect(enzymeWrapper.find('table').length).toBe(1);
-                    expect(enzymeWrapper.find('th').length).toBe(3);
-                    expect(enzymeWrapper.find('tr').length).toBe(1);
+                 expect(enzymeWrapper.find('th').length).toBe(4);
+                 expect(enzymeWrapper.find('tr').length).toBe(2);
                     expect(enzymeWrapper.find('td').length).toBe(0);
                     expect(enzymeWrapper.find('button').length).toBe(1);
                 }
@@ -43,12 +41,11 @@ describe('Enterprise list component', () => {
                     enzymeWrapper = mountWithIntl(<EnterpriseList {...props}/>, {});
 
                     // Then
-                    expect(enzymeWrapper.find('h1').hasClass('principal-content-title')).toBe(true);
-                    expect(enzymeWrapper.find('h1').text()).toBe('Enterprise list');
-                    expect(enzymeWrapper.find('table').length).toBe(1);
-                    expect(enzymeWrapper.find('th').length).toBe(3);
-                    expect(enzymeWrapper.find('tr').length).toBe(2);
-                    expect(enzymeWrapper.find('td').length).toBe(3);
+                 expect(enzymeWrapper.find('div').length).toBe(4);
+                 expect(enzymeWrapper.find('table').length).toBe(1);
+                 expect(enzymeWrapper.find('th').length).toBe(4);
+                 expect(enzymeWrapper.find('tr').length).toBe(3);
+                 expect(enzymeWrapper.find('td').length).toBe(3);
                 }
              );
          }

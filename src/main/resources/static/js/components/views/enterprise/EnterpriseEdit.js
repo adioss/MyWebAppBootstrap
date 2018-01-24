@@ -1,13 +1,14 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
+import {Button, Form, Header, Icon} from 'semantic-ui-react';
 
 class EnterpriseEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.id,
+            id:   props.id,
             name: props.name,
-            url: props.url,
+            url:  props.url,
         };
     }
 
@@ -28,77 +29,52 @@ class EnterpriseEdit extends React.Component {
         const {formatMessage} = this.props.intl;
         return (
             <div>
-                <div className='header'>
-                    <h1 className='principal-content-title'>
-                        <FormattedMessage id='enterprise.edition.title' defaultMessage='Enterprise edition'/>
-                    </h1>
-                </div>
-                <br/>
-                <div className='pure-g'>
-                    <div className='pure-u-1-1 base-content'>
-                        <form className='pure-form pure-form-aligned'>
-                            <fieldset>
-                                <div className='pure-control-group'>
-                                    <label>
-                                        <FormattedMessage id='enterprise.edition.label.name.value'
-                                                          defaultMessage='Name'/>
-                                    </label>
-                                    <input type='text'
-                                           placeholder={
-                                               formatMessage({id: 'enterprise.edition.input.name.placeholder'})
-                                           }
-                                           value={this.state.name}
-                                           required
-                                           onChange={this.handleChange.bind(this, 'name')}/>
-                                </div>
-                                <div className='pure-control-group'>
-                                    <label><FormattedMessage id='enterprise.edition.label.url.value'
-                                                             defaultMessage='Url'/>
-                                    </label>
-                                    <input type='url'
-                                           placeholder={formatMessage({id: 'enterprise.edition.input.url.placeholder'})}
-                                           value={this.state.url}
-                                           required pattern='https?://.+'
-                                           onChange={this.handleChange.bind(this, 'url')}/>
-                                </div>
-                                <div className='pure-controls'>
-                                    <button type='button' className='pure-button pure-button-primary'
-                                            onClick={() => this.onSaveClicked()}>
-                                        <FormattedMessage id='global.button.save.label' defaultMessage='Save'/>
-                                    </button>
-                                    <button type='button'
-                                            className={this.state.id != null ? 'pure-button button-error' : 'hidden'}
-                                            onClick={() => this.props.remove(this.state.id)}>
-                                        <FormattedMessage id='global.button.delete.label' defaultMessage='Delete'/>
-                                    </button>
-                                    <button type='button' className='pure-button'
-                                            onClick={() => this.props.cancel()}>
-                                        <FormattedMessage id='global.button.cancel.label' defaultMessage='Cancel'/>
-                                    </button>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-
+                <Header as='h2'>
+                    <Icon name='industry'/>
+                    <Header.Content>
+                        <FormattedMessage id='enterprise.title' defaultMessage='Enterprise'/>
+                        <Header.Subheader><FormattedMessage id='enterprise.edition.title' defaultMessage='Enterprise edition'/></Header.Subheader>
+                    </Header.Content>
+                </Header>
+                <Form>
+                    <Form.Field>
+                        <label><FormattedMessage id='enterprise.edition.label.name.value' defaultMessage='Name'/></label>
+                        <input type='text' value={this.state.name} required onChange={this.handleChange.bind(this, 'name')}
+                               placeholder={formatMessage({id: 'enterprise.edition.input.name.placeholder'})}/>
+                    </Form.Field>
+                    <Form.Field>
+                        <label><FormattedMessage id='enterprise.edition.label.url.value' defaultMessage='Url'/></label>
+                        <input type='url' value={this.state.url} required pattern='https?://.+' onChange={this.handleChange.bind(this, 'url')}
+                               placeholder={formatMessage({id: 'enterprise.edition.input.url.placeholder'})}/>
+                    </Form.Field>
+                    <Button primary onClick={() => this.onSaveClicked()}>
+                        <FormattedMessage id='global.button.save.label' defaultMessage='Save'/>
+                    </Button>
+                    <Button negative onClick={() => this.props.remove(this.state.id)} className={this.state.id == null ? 'hidden' : ''}>
+                        <FormattedMessage id='global.button.delete.label' defaultMessage='Delete' className='hidden'/>
+                    </Button>
+                    <Button onClick={() => this.props.cancel()}>
+                        <FormattedMessage id='global.button.cancel.label' defaultMessage='Cancel'/>
+                    </Button>
+                </Form>
             </div>
         );
     }
 }
 
 EnterpriseEdit.propTypes = {
-    intl: intlShape.isRequired,
-    id: React.PropTypes.number,
-    name: React.PropTypes.string,
-    url: React.PropTypes.string,
-    save: React.PropTypes.func.isRequired,
+    intl:   intlShape.isRequired,
+    id:     React.PropTypes.number,
+    name:   React.PropTypes.string,
+    url:    React.PropTypes.string,
+    save:   React.PropTypes.func.isRequired,
     cancel: React.PropTypes.func.isRequired,
     remove: React.PropTypes.func.isRequired
 };
 
 EnterpriseEdit.defaultProps = {
     name: '',
-    url: ''
+    url:  ''
 };
 
 export default injectIntl(EnterpriseEdit);

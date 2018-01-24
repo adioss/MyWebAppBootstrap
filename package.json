@@ -36,7 +36,9 @@
     "react-router-redux": "^4.0.5",
     "react-selectize": "^2.1.0",
     "react-tether": "^0.5.2",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.71.3"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",

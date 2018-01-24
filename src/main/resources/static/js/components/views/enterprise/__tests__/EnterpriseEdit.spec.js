@@ -17,10 +17,9 @@ describe('Enterprise edit component',
              );
 
              it('should render self and sub-components', () => {
-                    expect(enzymeWrapper.find('h1').hasClass('principal-content-title')).toBe(true);
-                    expect(enzymeWrapper.find('h1').text()).toBe('Enterprise edition');
-                    expect(enzymeWrapper.find('h1').length).toBe(1);
-                    expect(enzymeWrapper.find('div').length).toBe(7);
+                 expect(enzymeWrapper.find('div.sub.header').text()).toBe('Enterprise edition');
+                 expect(enzymeWrapper.find('h1').length).toBe(0);
+                 expect(enzymeWrapper.find('div').length).toBe(5);
                     expect(enzymeWrapper.find('form').length).toBe(1);
                     expect(enzymeWrapper.find('button').length).toBe(3);
                 }
