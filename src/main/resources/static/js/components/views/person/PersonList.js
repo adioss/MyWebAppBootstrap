@@ -1,6 +1,6 @@
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
-import Pagination from 'rc-pagination';
+import {Button, Header, Icon, Pagination, Table} from 'semantic-ui-react';
 
 class PersonList extends React.Component {
     constructor(props) {
@@ -17,91 +17,69 @@ class PersonList extends React.Component {
     render() {
         return (
             <div>
-                <div className='header'>
-                    <h1 className='principal-content-title'>
-                        <FormattedMessage id='person.list.title' defaultMessage='Person list'/>
-                    </h1>
-                </div>
-                <br/>
-                <div className='base-content'>
-                    <button className='pure-button' onClick={() => this.props.create()}>
-                        <FormattedMessage id='global.button.new.label' defaultMessage='New'/>&nbsp;
-                        <FormattedMessage id='person.title' defaultMessage='Enterprise'/>
-                    </button>
-                    <br/>
-                    <br/>
-                    <div className='pure-g'>
-                        <div className='pure-u-1-1'>
-                            <table className='pure-table pure-table-bordered'>
-                                <thead>
-                                <tr>
-                                    <th>
-                                        <FormattedMessage id='global.list.column.header.id' defaultMessage='#'/>
-                                    </th>
-                                    <th>
-                                        <FormattedMessage id='person.list.column.name.label' defaultMessage='Name'/>
-                                    </th>
-                                    <th>
-                                        <FormattedMessage id='person.list.column.url.label' defaultMessage='Url'/>
-                                    </th>
-                                    <th>
-                                        <FormattedMessage id='person.list.column.enterprise.label'
-                                                          defaultMessage='Enterprise'/>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {
-                                    this.props.persons != null && this.props.persons.content != null ?
-                                        this.props.persons.content.map((person) =>
-                                                                           <tr
-                                                                               onClick={
-                                                                                   () => {
-                                                                                       this.props.edit(person.id)
-                                                                                   }
-                                                                               }
-                                                                               key={person.id}>
-                                                                               <td>{person.id}</td>
-                                                                               <td>{person.name}</td>
-                                                                               <td>{person.url}</td>
-                                                                               <td>{person.enterprise != null ?
-                                                                                   person.enterprise.name : ''}</td>
-                                                                           </tr>
-                                        ) : <tr/>
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                        {this.props.persons != null && this.props.persons.totalElements != null ?
-                            <Pagination
-                                current={this.props.persons.number + 1}
-                                total={this.props.persons.totalElements}
-                                onChange={(page) => this.onPaginationChanged(page)}/> : <div/>
-                        }
-                    </div>
-                </div>
+                <Header as='h2'>
+                    <Icon name='industry'/>
+                    <Header.Content>
+                        <FormattedMessage id='person.title' defaultMessage='Person'/>
+                        <Header.Subheader>
+                            <FormattedMessage id='person.list.title' defaultMessage='Manage persons'/>
+                        </Header.Subheader>
+                    </Header.Content>
+                </Header>
+                <Table compact celled definition>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell/>
+                            <Table.HeaderCell><FormattedMessage id='person.list.column.name.label' defaultMessage='Name'/></Table.HeaderCell>
+                            <Table.HeaderCell><FormattedMessage id='person.list.column.url.label' defaultMessage='Url'/></Table.HeaderCell>
+                            <Table.HeaderCell><FormattedMessage id='person.list.column.enterprise.label' defaultMessage='Enterprise'/></Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {this.props.persons !== undefined && this.props.persons.content !== undefined ? //
+                         this.props.persons.content.map((person) => //
+                             <Table.Row onClick={() => this.props.edit(person.id)} key={person.id}>
+                                 <Table.Cell>{person.id}</Table.Cell>
+                                 <Table.Cell>{person.name}</Table.Cell>
+                                 <Table.Cell>{person.url}</Table.Cell>
+                                 <Table.Cell>{person.enterprise !== undefined ? person.enterprise.name : ''}</Table.Cell>
+                             </Table.Row>) : <Table.Row/>}
+                    </Table.Body>
+                    <Table.Footer fullWidth>
+                        <Table.Row>
+                            <Table.HeaderCell colSpan='4'>
+                                <Button floated='right' icon labelPosition='left' primary size='small' onClick={() => this.props.create()}>
+                                    <Icon name='industry'/>
+                                    <FormattedMessage id='global.button.new.label' defaultMessage='New'/>&nbsp;
+                                    <FormattedMessage id='person.title' defaultMessage='Person'/>
+                                </Button>
+                                {this.props.persons !== undefined && this.props.persons.totalElements !== undefined ? //
+                                 <Pagination defaultActivePage={this.props.persons.number + 1} totalPages={this.props.persons.totalPages}
+                                             onPageChange={(event, data) => this.onPaginationChanged(data.activePage)}/> : <div/>}
+                            </Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Footer>
+                </Table>
             </div>
         );
     }
 }
 
 PersonList.propTypes = {
-    persons: React.PropTypes.shape(
-        {
-            content: React.PropTypes.any,
-            first: React.PropTypes.any,
-            last: React.PropTypes.any,
-            number: React.PropTypes.number,
-            size: React.PropTypes.number,
-            totalElements: React.PropTypes.number,
-            totalPages: React.PropTypes.number,
-            numberOfElements: React.PropTypes.number,
-            sort: React.PropTypes.any
-        }
-    ),
-    list: React.PropTypes.func.isRequired,
-    edit: React.PropTypes.func.isRequired,
-    create: React.PropTypes.func.isRequired
+    persons: React.PropTypes.shape({
+        content:          React.PropTypes.any,
+        first:            React.PropTypes.any,
+        last:             React.PropTypes.any,
+        number:           React.PropTypes.number,
+        size:             React.PropTypes.number,
+        totalElements:    React.PropTypes.number,
+        totalPages:       React.PropTypes.number,
+        numberOfElements: React.PropTypes.number,
+        sort:             React.PropTypes.any
+    }),
+    list:    React.PropTypes.func.isRequired,
+    edit:    React.PropTypes.func.isRequired,
+    create:  React.PropTypes.func.isRequired
 };
 
 PersonList.defaultProps = {
