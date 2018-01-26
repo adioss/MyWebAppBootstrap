@@ -1,7 +1,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Button, Header, Icon, Table} from 'semantic-ui-react';
-import Pagination from 'rc-pagination';
+import {Button, Header, Icon, Pagination, Table} from 'semantic-ui-react';
 
 class EnterpriseList extends React.Component {
     constructor(props) {
@@ -36,13 +35,13 @@ class EnterpriseList extends React.Component {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {this.props.enterprises != null && this.props.enterprises.content != null ? this.props.enterprises.content
-                            .map((enterprise) => //
-                                <Table.Row onClick={() => this.props.edit(enterprise.id)} key={enterprise.id}>
-                                    <Table.Cell>{enterprise.id}</Table.Cell>
-                                    <Table.Cell>{enterprise.name}</Table.Cell>
-                                    <Table.Cell>{enterprise.url}</Table.Cell>
-                                </Table.Row>) : <Table.Row/>}
+                        {this.props.enterprises !== undefined && this.props.enterprises.content !== undefined ? //
+                         this.props.enterprises.content.map((enterprise) => //
+                             <Table.Row onClick={() => this.props.edit(enterprise.id)} key={enterprise.id}>
+                                 <Table.Cell>{enterprise.id}</Table.Cell>
+                                 <Table.Cell>{enterprise.name}</Table.Cell>
+                                 <Table.Cell>{enterprise.url}</Table.Cell>
+                             </Table.Row>) : <Table.Row/>}
                     </Table.Body>
                     <Table.Footer fullWidth>
                         <Table.Row>
@@ -52,9 +51,9 @@ class EnterpriseList extends React.Component {
                                     <FormattedMessage id='global.button.new.label' defaultMessage='New'/>&nbsp;
                                     <FormattedMessage id='enterprise.title' defaultMessage='Enterprise'/>
                                 </Button>
-                                {this.props.enterprises != null && this.props.enterprises.totalElements != null ? //
-                                 <Pagination current={this.props.enterprises.number + 1} total={this.props.enterprises.totalElements}
-                                             onChange={(page) => this.onPaginationChanged(page)}/> : <div/>}
+                                {this.props.enterprises !== undefined && this.props.enterprises.totalElements !== undefined ? //
+                                 <Pagination defaultActivePage={this.props.enterprises.number + 1} totalPages={this.props.enterprises.totalPages}
+                                             onPageChange={(event, data) => this.onPaginationChanged(data.activePage)}/> : <div/>}
                             </Table.HeaderCell>
                         </Table.Row>
                     </Table.Footer>
