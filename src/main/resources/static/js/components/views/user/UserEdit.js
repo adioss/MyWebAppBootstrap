@@ -123,10 +123,11 @@ class UserEdit extends React.Component {
                     <Button primary onClick={() => this.onSaveClicked()}>
                         <FormattedMessage id='global.button.save.label' defaultMessage='Save'/>
                     </Button>
-                    <Button negative onClick={() => this.props.remove(this.state.id)} className={this.state.id === null ? 'hidden' : ''}>
+                    <Button negative onClick={() => this.props.remove(this.state.id)}
+                            className={this.state.id === null || this.props.remove === undefined ? 'hidden' : ''}>
                         <FormattedMessage id='global.button.delete.label' defaultMessage='Delete' className='hidden'/>
                     </Button>
-                    <Button onClick={() => this.props.cancel()}>
+                    <Button onClick={() => this.props.cancel()} className={this.props.cancel === undefined ? 'hidden' : ''}>
                         <FormattedMessage id='global.button.cancel.label' defaultMessage='Cancel'/>
                     </Button>
                 </Form>
