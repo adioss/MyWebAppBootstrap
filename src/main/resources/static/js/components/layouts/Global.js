@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 import NotificationSystem from 'react-notification-system';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {updateIntl} from 'react-intl-redux';
+import {Grid, Icon, Image, Menu, Segment, Sidebar} from 'semantic-ui-react';
 import {init} from '../utils/PopupManager';
 import {hasUserRole} from '../utils/CurrentUserManager';
 import {customStyle, pureStyle, rePaginationStyle, selectizeStyle} from '../../style/index';
@@ -29,9 +30,10 @@ class Global extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            menuLink: props.menuLink,
-            layout:   props.layout,
-            menu:     props.menu,
+            isMenuExpanded: false,
+            menuLink:       props.menuLink,
+            layout:         props.layout,
+            menu:           props.menu,
         };
     }
 
@@ -50,76 +52,68 @@ class Global extends React.Component {
 
     onMenuButtonClick() {
         this.setState({
-            'menuLink': this.state.menuLink == 'menu-link' ? 'menu-link active' : 'menu-link',
-            'layout':   this.state.layout == '' ? 'active' : '',
-            'menu':     this.state.menu == '' ? 'active' : ''
+            'menuLink': this.state.menuLink === 'menu-link' ? 'menu-link active' : 'menu-link',
+            'layout':   this.state.layout === '' ? 'active' : '',
+            'menu':     this.state.menu === '' ? 'active' : ''
         });
     }
 
     render() {
-        const {formatMessage} = this.props.intl;
         return (
-            <div id='layout' className={this.state.layout}>
-                <a href='#menu' id='menuLink' className={this.state.menuLink}
-                   onClick={() => this.onMenuButtonClick()}>
-                    <span>&nbsp;</span>
-                </a>
-                <div id='menu' className={this.state.menu}>
-                    <div className='pure-menu'>
-                        <a className='pure-menu-heading' href='/'>
-                            <FormattedMessage id='menu.global.title' defaultMessage='Company'/>
-                        </a>
-                        <ul className='pure-menu-list'>
-                            <li className='pure-menu-item'>
-                                <Link className='pure-menu-link' to={'/'}>
-                                    <FormattedMessage id='menu.example.link' defaultMessage='Example'/>
-                                </Link>
-                            </li>
-                            <li className='pure-menu-item'>
-                                <Link className='pure-menu-link' to={'/enterprise/list'}>
+            <div>
+                <Sidebar.Pushable as={Segment} attached='bottom'>
+                    <Sidebar width={this.state.isMenuExpanded ? 'thin' : 'very thin'} as={Menu} animation='push' visible icon vertical inverted>
+                        <Menu.Item onClick={() => this.setState({isMenuExpanded: !this.state.isMenuExpanded})}>
+                            <Icon name='sidebar' size='large'/>
+                        </Menu.Item>
+                        <Menu.Item name='enterprise' active={this.state.menuActiveItem === 'enterprise'}>
+                            <Link to='/enterprise/list'>
+                                <Icon name='industry' size='large'/>
+                                <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
                                     <FormattedMessage id='menu.enterprises.link' defaultMessage='Enterprises'/>
-                                </Link>
-                            </li>
-                            <li className='pure-menu-item'>
-                                <Link className='pure-menu-link' to={'/person/list'}>
+                                </div>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item name='person' active={this.state.menuActiveItem === 'person'}>
+                            <Link to='/person/list'>
+                                <Icon name='address book' size='large'/>
+                                <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
                                     <FormattedMessage id='menu.persons.link' defaultMessage='Persons'/>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className={!hasUserRole(ADMIN_ROLE) ? 'hidden' : ''}>
-                        <div className='pure-menu'>
-                            <ul className='pure-menu-list'>
-                                <li className='pure-menu-item'>
-                                    <Link className='pure-menu-link' to={'/user/list'}>
-                                        <FormattedMessage id='menu.users.link' defaultMessage='Users'/>
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className='pure-menu user-tab'>
-                        <ul className='pure-menu-list'>
-                            <li className='pure-menu-item'>
-                                <Link className='user-details pure-menu-link' to={'/profile'}>
-                                    <p>
-                                        <img className='user-avatar' alt='avatar' height='48' width='48'
-                                             src={this.props.avatarUrl}/>
-                                    </p>
-                                    <p>{this.props.currentUser != null ? this.props.currentUser.username : ''}</p>
-                                </Link>
-                            </li>
-                            <li className='pure-menu-item' alt={formatMessage({id: 'menu.logout.alt.message'})}>
-                                <a className='user-logout pure-menu-link ' href={'/logout'}>
-                                    <i className='fa fa-sign-out' aria-hidden='true'>&nbsp;</i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div id='main'>
-                    {this.props.children}
-                </div>
+                                </div>
+                            </Link>
+                        </Menu.Item>
+                        <Menu.Item name='user' active={this.state.menuActiveItem === 'user'} className={!hasUserRole(ADMIN_ROLE) ? 'hidden' : ''}>
+                            <Link to='/user/list'>
+                                <Icon name='users' size='large'/>
+                                <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
+                                    <FormattedMessage id='menu.users.link' defaultMessage='Users'/>
+                                </div>
+                            </Link>
+                        </Menu.Item>
+                    </Sidebar>
+                    <Sidebar.Pusher>
+                        <Menu secondary attached='top'>
+                            <Menu.Menu position='right'>
+                                <Menu.Item name='avatar' className={this.state.isMenuExpanded ? 'menu-double-padded' : 'menu-padded'}>
+                                    <Image src={this.props.avatarUrl} avatar/>
+                                    <Link to='/profile'><span>{this.props.currentUser !== undefined ? this.props.currentUser.username : ''}</span></Link>
+                                    &nbsp;<a href='/logout'><FormattedMessage id='menu.logout.alt.message' defaultMessage='Logout'/></a>&nbsp;
+                                </Menu.Item>
+                            </Menu.Menu>
+                        </Menu>
+                        &nbsp;
+                        <Grid className='grid-padded'>
+                            <Grid.Row>
+                                <Grid.Column width={this.state.isMenuExpanded ? 14 : 15}>
+                                    <Segment>
+                                        {this.props.children}
+                                    </Segment>
+                                </Grid.Column>
+                                <Grid.Column width={this.state.isMenuExpanded ? 2 : 1}/>
+                            </Grid.Row>
+                        </Grid>
+                    </Sidebar.Pusher>
+                </Sidebar.Pushable>
                 <NotificationSystem ref='notificationSystem'/>
             </div>
         );
