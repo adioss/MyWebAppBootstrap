@@ -90,7 +90,8 @@ class Global extends React.Component {
                                 <Menu.Item name='avatar' style={{paddingRight: this.state.isMenuExpanded ? '170px' : '70px'}}>
                                     <Image src={this.props.avatarUrl} avatar/>
                                     <Link to='/profile'><span>{this.props.currentUser !== undefined ? this.props.currentUser.username : ''}</span></Link>
-                                    &nbsp;<a href='/logout'><FormattedMessage id='menu.logout.alt.message' defaultMessage='Logout'/></a>&nbsp;
+                                    &nbsp;/&nbsp;
+                                    <a href='/logout'><FormattedMessage id='menu.logout.alt.message' defaultMessage='Logout'/></a>&nbsp;
                                 </Menu.Item>
                             </Menu.Menu>
                         </Menu>
