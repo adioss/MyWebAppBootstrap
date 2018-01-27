@@ -31,9 +31,7 @@ class Global extends React.Component {
         super(props);
         this.state = {
             isMenuExpanded: false,
-            menuLink:       props.menuLink,
-            layout:         props.layout,
-            menu:           props.menu,
+            menuActiveItem: ''
         };
     }
 
@@ -50,14 +48,6 @@ class Global extends React.Component {
         this.setState(Object.assign({}, this.state, {currentUser: nextProps.currentUser}));
     }
 
-    onMenuButtonClick() {
-        this.setState({
-            'menuLink': this.state.menuLink === 'menu-link' ? 'menu-link active' : 'menu-link',
-            'layout':   this.state.layout === '' ? 'active' : '',
-            'menu':     this.state.menu === '' ? 'active' : ''
-        });
-    }
-
     render() {
         return (
             <div>
@@ -66,7 +56,8 @@ class Global extends React.Component {
                         <Menu.Item onClick={() => this.setState({isMenuExpanded: !this.state.isMenuExpanded})}>
                             <Icon name='sidebar' size='large'/>
                         </Menu.Item>
-                        <Menu.Item name='enterprise' active={this.state.menuActiveItem === 'enterprise'}>
+                        <Menu.Item name='enterprise' active={this.state.menuActiveItem === 'enterprise'}
+                                   onClick={() => this.setState({menuActiveItem: 'enterprise'})}>
                             <Link to='/enterprise/list'>
                                 <Icon name='industry' size='large'/>
                                 <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
@@ -74,7 +65,8 @@ class Global extends React.Component {
                                 </div>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item name='person' active={this.state.menuActiveItem === 'person'}>
+                        <Menu.Item name='person' active={this.state.menuActiveItem === 'person'}
+                                   onClick={() => this.setState({menuActiveItem: 'person'})}>
                             <Link to='/person/list'>
                                 <Icon name='address book' size='large'/>
                                 <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
@@ -82,7 +74,8 @@ class Global extends React.Component {
                                 </div>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item name='user' active={this.state.menuActiveItem === 'user'} className={!hasUserRole(ADMIN_ROLE) ? 'hidden' : ''}>
+                        <Menu.Item name='user' active={this.state.menuActiveItem === 'user'} className={!hasUserRole(ADMIN_ROLE) ? 'hidden' : ''}
+                                   onClick={() => this.setState({menuActiveItem: 'user'})}>
                             <Link to='/user/list'>
                                 <Icon name='users' size='large'/>
                                 <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
@@ -94,7 +87,7 @@ class Global extends React.Component {
                     <Sidebar.Pusher>
                         <Menu secondary attached='top'>
                             <Menu.Menu position='right'>
-                                <Menu.Item name='avatar' className={this.state.isMenuExpanded ? 'menu-double-padded' : 'menu-padded'}>
+                                <Menu.Item name='avatar' style={{paddingRight: this.state.isMenuExpanded ? '170px' : '70px'}}>
                                     <Image src={this.props.avatarUrl} avatar/>
                                     <Link to='/profile'><span>{this.props.currentUser !== undefined ? this.props.currentUser.username : ''}</span></Link>
                                     &nbsp;<a href='/logout'><FormattedMessage id='menu.logout.alt.message' defaultMessage='Logout'/></a>&nbsp;
@@ -102,12 +95,10 @@ class Global extends React.Component {
                             </Menu.Menu>
                         </Menu>
                         &nbsp;
-                        <Grid className='grid-padded'>
+                        <Grid className='grid-padded' style={{'paddingLeft': '10px'}}>
                             <Grid.Row>
                                 <Grid.Column width={this.state.isMenuExpanded ? 14 : 15}>
-                                    <Segment>
-                                        {this.props.children}
-                                    </Segment>
+                                    <Segment>{this.props.children}</Segment>
                                 </Grid.Column>
                                 <Grid.Column width={this.state.isMenuExpanded ? 2 : 1}/>
                             </Grid.Row>
@@ -132,17 +123,11 @@ Global.propTypes = {
 };
 
 Global.propTypes = {
-    menuLink:  React.PropTypes.string,
-    layout:    React.PropTypes.string,
-    menu:      React.PropTypes.string,
     avatarUrl: React.PropTypes.string,
     children:  React.PropTypes.object
 };
 
 Global.defaultProps = {
-    menuLink:  'menu-link',
-    layout:    '',
-    menu:      '',
     avatarUrl: '/api/avatars/-1'
 };
 
