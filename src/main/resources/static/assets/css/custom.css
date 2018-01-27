@@ -27,6 +27,10 @@ th {
     background-color: #f1f3f6;
 }
 
+.hidden {
+    display: none !important;
+}
+
 .isolated-component {
     all: revert;
 }
@@ -243,29 +247,6 @@ This is the parent `<div>` that contains the menu and the content area.
 
 .menu-link span:after {
     margin-top: 0.6em;
-}
-
-.pure-form-aligned .pure-control-group .pure-form-aligned-item {
-    text-align: left;
-    display: inline-block;
-    vertical-align: middle;
-    width: 248px;
-    margin: 0 0 0 0;
-}
-
-.pure-form-aligned .pure-control-group .pure-form-aligned-label {
-    text-align: left;
-    display: inline-block;
-    vertical-align: middle;
-    width: 48px;
-    margin: 0 0 0 0;
-}
-
-.pure-form-aligned .pure-control-group .pure-form-aligned-test {
-    text-align: left;
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0 0 0 0;
 }
 
 @media screen and (min-width: 48em) {

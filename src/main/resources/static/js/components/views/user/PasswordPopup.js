@@ -1,6 +1,5 @@
 import React from 'react';
 import {FormattedMessage, injectIntl} from 'react-intl';
-// import Modal from 'react-modal';
 import {Button, Form, Modal} from 'semantic-ui-react';
 
 class PasswordPopup extends React.Component {

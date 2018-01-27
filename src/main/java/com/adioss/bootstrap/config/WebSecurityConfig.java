@@ -35,8 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Environment environment;
 
     @Autowired
-    public WebSecurityConfig(UserDetailsService userDetailsService, CorsAllowedOrigins corsAllowedOrigins,
-                             Environment environment) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, CorsAllowedOrigins corsAllowedOrigins, Environment environment) {
         this.userDetailsService = userDetailsService;
         this.corsAllowedOrigins = corsAllowedOrigins;
         this.environment = environment;
@@ -49,17 +48,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/login", "/logout", "/cspReport", "/dist/**", "/assets/**").permitAll()
-                .antMatchers("/api/console/**").hasAnyAuthority(Role.ADMIN.toString())
-                .anyRequest().hasAnyAuthority(Role.ADMIN.toString(), Role.USER.toString())
-                .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
-                .defaultSuccessUrl("/", true)
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
-                .and().csrf().ignoringAntMatchers("/cspReport")
-                .and().cors()
-                .and().headers().contentSecurityPolicy(getPolicyDirectives());
+        http.authorizeRequests().antMatchers("/login", "/logout", "/cspReport", "/dist/**", "/assets/**").permitAll().antMatchers("/api/console/**")
+                .hasAnyAuthority(Role.ADMIN.toString()).anyRequest().hasAnyAuthority(Role.ADMIN.toString(), Role.USER.toString()).anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/", true).and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").and().csrf().ignoringAntMatchers("/cspReport").and()
+                .cors().and().headers().contentSecurityPolicy(getPolicyDirectives());
     }
 
     @Autowired
@@ -79,26 +72,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private String getPolicyDirectives() {
-        return getConcern("default-src", "'none'") +
-                getConcern("script-src", getDevScriptSrcCspPolicy()) +
-                getConcern("connect-src", getDevConnectSrcCspPolicy()) +
-                getConcern("img-src", "'self'") + getConcern("style-src", "'self'", "'unsafe-inline'", "https://opensource.keycdn.com",
-                                                             "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com") + getConcern("font-src", "'self'",
-                                                                                                                                          "https://opensource.keycdn.com",
-                                                                                                                                          "https://cdnjs.cloudflare.com",
-                                                                                                                                          "https://fonts.googleapis.com",
-                                                                                                                                          "https://fonts.gstatic.com",
-                                                                                                                                          "data:") +
-                "report-uri /cspReport";
+        return getConcern("default-src", "'none'") + getConcern("script-src", getDevScriptSrcCspPolicy()) //
+                + getConcern("connect-src", getDevConnectSrcCspPolicy()) //
+                + getConcern("img-src", "'self'") //
+                + getConcern("style-src", "'self'", "'unsafe-inline'", "https://opensource.keycdn.com", "https://cdnjs.cloudflare.com",
+                             "https://fonts.googleapis.com", "https://cdn.jsdelivr.net") //
+                + getConcern("font-src", "'self'", "https://opensource.keycdn.com", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com",
+                             "https://fonts.gstatic.com", "https://cdn.jsdelivr.net", "data:") + "report-uri /cspReport";
     }
 
     private List<String> getDevScriptSrcCspPolicy() {
         List<String> result = new ArrayList<>(singletonList("'self'"));
         if (isDevProfile()) {
-            result.addAll(asList(
-                    "'unsafe-eval'",
-                    "'unsafe-inline'"));
+            result.addAll(asList("'unsafe-eval'", "'unsafe-inline'"));
         }
+        result.add("https://code.jquery.com");
+        result.add("https://cdn.jsdelivr.net");
         return result;
     }
 

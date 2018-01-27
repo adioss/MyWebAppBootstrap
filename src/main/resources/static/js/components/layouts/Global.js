@@ -7,7 +7,7 @@ import {updateIntl} from 'react-intl-redux';
 import {Grid, Icon, Image, Menu, Segment, Sidebar} from 'semantic-ui-react';
 import {init} from '../utils/PopupManager';
 import {hasUserRole} from '../utils/CurrentUserManager';
-import {customStyle, pureStyle, rePaginationStyle, selectizeStyle} from '../../style/index';
+import {customStyle, selectizeStyle} from '../../style/index';
 import {ADMIN_ROLE, USER_ROLE} from '../../actions/constants';
 import {get} from '../../apis/CurrentUserApi';
 import {getStore} from '../../store';
@@ -19,10 +19,6 @@ import fri18n from '../../i18n/fr-FR';
 // prevent optimize import auto removal
 //noinspection JSUnusedLocalSymbols
 const customStyleImport = customStyle;
-//noinspection JSUnusedLocalSymbols
-const pureStyleImport = pureStyle;
-//noinspection JSUnusedLocalSymbols
-const rePaginationStyleImport = rePaginationStyle;
 //noinspection JSUnusedLocalSymbols
 const selectizeStyleImport = selectizeStyle;
 
