@@ -1,5 +1,6 @@
 import React from 'react';
 import {injectIntl} from 'react-intl';
+import {Icon} from 'semantic-ui-react';
 import Fetch from '../../../apis/Fetch';
 import {DELETE, POST} from '../../../apis/ApiConstants';
 import {getStore} from '../../../store';
@@ -44,12 +45,17 @@ class AvatarEditor extends React.Component {
 
     render() {
         const {formatMessage} = this.props.intl;
+        const imageStyle = {
+            'verticalAlign': 'middle'
+        };
         return (
             <span>
-                <label htmlFor='avatarInput'><img className='user-avatar' alt='avatar' height='48' width='48' src={this.state.avatarUrl}/></label>
-                <input id='avatarInput' type='file' ref={(input) => (this.avatarInput = input)} accept='image/*' className='user-avatar-upload-button hidden'
+                <label htmlFor='avatarInput'>
+                    <img className='user-avatar' alt='avatar' height='48' width='48' src={this.state.avatarUrl} style={imageStyle}/>
+                </label>
+                <input id='avatarInput' type='file' ref={(input) => (this.avatarInput = input)} accept='image/*' className='hidden'
                        onChange={() => this.uploadAvatar()} placeholder={formatMessage({id: 'user.edition.input.avatar.placeholder'})}/>
-                <i className='fa fa-trash' aria-hidden='true' onClick={() => this.cleanAvatar()}/>
+                <Icon name='trash' onClick={() => this.cleanAvatar()}/>
             </span>
         )
     }

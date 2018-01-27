@@ -79,7 +79,7 @@ class UserEdit extends React.Component {
         return (
             <div>
                 <Header as='h2'>
-                    <Icon name='industry'/>
+                    <Icon name='users'/>
                     <Header.Content>
                         <FormattedMessage id='user.title' defaultMessage='User'/>
                         <Header.Subheader><FormattedMessage id='user.edition.title' defaultMessage='User edition'/></Header.Subheader>

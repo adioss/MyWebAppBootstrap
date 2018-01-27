@@ -18,7 +18,7 @@ class PersonList extends React.Component {
         return (
             <div>
                 <Header as='h2'>
-                    <Icon name='industry'/>
+                    <Icon name='address book'/>
                     <Header.Content>
                         <FormattedMessage id='person.title' defaultMessage='Person'/>
                         <Header.Subheader>
