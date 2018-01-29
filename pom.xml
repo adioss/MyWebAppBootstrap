@@ -256,16 +256,10 @@
 
     <profiles>
         <profile>
-            <id>exec-windows</id>
+            <id>npm-test</id>
             <activation>
-                <os>
-                    <family>windows</family>
-                </os>
+                <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <npm.exec>npm.cmd</npm.exec>
-                <webpack.exec>webpack.cmd</webpack.exec>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -280,7 +274,7 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>${npm.exec}</executable>
+                                    <executable>npm</executable>
                                     <commandlineArgs>install</commandlineArgs>
                                 </configuration>
                             </execution>
@@ -291,7 +285,7 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>${webpack.exec}</executable>
+                                    <executable>webpack</executable>
                                     <commandlineArgs>--config webpack.production.config.js</commandlineArgs>
                                 </configuration>
                             </execution>
@@ -302,63 +296,7 @@
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
-                                    <executable>${npm.exec}</executable>
-                                    <commandlineArgs>run test</commandlineArgs>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>exec-unix</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                </os>
-            </activation>
-            <properties>
-                <npm.exec>npm</npm.exec>
-                <webpack.exec>webpack</webpack.exec>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.5.0</version>
-                        <executions>
-                            <execution>
-                                <id>install-js</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>${npm.exec}</executable>
-                                    <commandlineArgs>install</commandlineArgs>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>build-js</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>${webpack.exec}</executable>
-                                    <commandlineArgs>--config webpack.production.config.js</commandlineArgs>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>exec-js-test</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>${npm.exec}</executable>
+                                    <executable>npm</executable>
                                     <commandlineArgs>run test</commandlineArgs>
                                 </configuration>
                             </execution>
