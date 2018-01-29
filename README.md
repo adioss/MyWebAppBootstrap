@@ -21,7 +21,7 @@ My simple webapp bootstrap V2:
     * basic auth
 * frontend
     * React / Redux / Webpack / Babel
-    * pureCSS for responsiveness
+    * semantic-ui for responsiveness
     * tooling(jest/enzyme)
 
 ### What is this repository for? ###

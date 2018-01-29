@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
-import {increase, decrease} from '../../actions/count';
+import {decrease, increase} from '../../actions/count';
 
 class Home extends React.Component {
     constructor(props) {
@@ -20,8 +20,8 @@ class Home extends React.Component {
                     </h1>
                 </div>
                 <br/>
-                <div className='pure-g'>
-                    <div className='pure-u-1-1 base-content'>
+                <div>
+                    <div>
                         <FormattedMessage id='home.example.label' defaultMessage='Here a basic react component:'/>
                         <br/>
                         <FormattedMessage id='home.example.number.label' defaultMessage='Number:'/>
