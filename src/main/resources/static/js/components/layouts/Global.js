@@ -1,19 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import NotificationSystem from 'react-notification-system';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {updateIntl} from 'react-intl-redux';
 import {Grid, Icon, Image, Menu, Segment, Sidebar} from 'semantic-ui-react';
-import {init} from '../utils/PopupManager';
-import {hasUserRole} from '../utils/CurrentUserManager';
 import {customStyle, selectizeStyle} from '../../style/index';
 import {ADMIN_ROLE, USER_ROLE} from '../../actions/constants';
 import {get} from '../../apis/CurrentUserApi';
 import {getStore} from '../../store';
 import {getCurrentUserSuccess} from '../../actions/currentUser';
+import AlertPopup from '../utils/AlertPopup';
 import eni18n from '../../i18n/en-US';
 import fri18n from '../../i18n/fr-FR';
+import {hasUserRole} from '../utils/CurrentUserManager';
 
 /*eslint-disable no-unused-vars*/
 // prevent optimize import auto removal
@@ -32,7 +31,6 @@ class Global extends React.Component {
     }
 
     componentDidMount() {
-        init(this.refs.notificationSystem, this.props.intl);
         get((user) => {
             const language = [eni18n, fri18n].find((item) => item.language === user.language);
             getStore().dispatch(updateIntl(language));
@@ -47,13 +45,14 @@ class Global extends React.Component {
     render() {
         return (
             <div>
+                <AlertPopup {...this.props.popupData}/>
                 <Sidebar.Pushable as={Segment} attached='bottom'>
                     <Sidebar width={this.state.isMenuExpanded ? 'thin' : 'very thin'} as={Menu} animation='push' visible icon vertical inverted>
                         <Menu.Item onClick={() => this.setState({isMenuExpanded: !this.state.isMenuExpanded})}>
                             <Icon name='sidebar' size='large'/>
                         </Menu.Item>
-                        <Menu.Item name='enterprise' active={this.state.menuActiveItem === 'enterprise'}
-                                   onClick={() => this.setState({menuActiveItem: 'enterprise'})}>
+                        {/*onClick={() => this.setState({menuActiveItem: 'enterprise'})}*/}
+                        <Menu.Item name='enterprise' active={this.state.menuActiveItem === 'enterprise'}>
                             <Link to='/enterprise/list'>
                                 <Icon name='industry' size='large'/>
                                 <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
@@ -61,8 +60,7 @@ class Global extends React.Component {
                                 </div>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item name='person' active={this.state.menuActiveItem === 'person'}
-                                   onClick={() => this.setState({menuActiveItem: 'person'})}>
+                        <Menu.Item name='person' active={this.state.menuActiveItem === 'person'}>
                             <Link to='/person/list'>
                                 <Icon name='address book' size='large'/>
                                 <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
@@ -70,8 +68,7 @@ class Global extends React.Component {
                                 </div>
                             </Link>
                         </Menu.Item>
-                        <Menu.Item name='user' active={this.state.menuActiveItem === 'user'} className={!hasUserRole(ADMIN_ROLE) ? 'hidden' : ''}
-                                   onClick={() => this.setState({menuActiveItem: 'user'})}>
+                        <Menu.Item name='user' active={this.state.menuActiveItem === 'user'} className={!hasUserRole(ADMIN_ROLE) ? 'hidden' : ''}>
                             <Link to='/user/list'>
                                 <Icon name='users' size='large'/>
                                 <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
@@ -105,7 +102,6 @@ class Global extends React.Component {
                         </Grid>
                     </Sidebar.Pusher>
                 </Sidebar.Pushable>
-                <NotificationSystem ref='notificationSystem'/>
             </div>
         );
     }
@@ -119,12 +115,14 @@ Global.propTypes = {
         email:    React.PropTypes.string.isRequired,
         roles:    React.PropTypes.arrayOf(React.PropTypes.oneOf([ADMIN_ROLE, USER_ROLE]))
     }),
-    avatarUrl:   React.PropTypes.string.isRequired
-};
-
-Global.propTypes = {
-    avatarUrl: React.PropTypes.string,
-    children:  React.PropTypes.object
+    avatarUrl:   React.PropTypes.string.isRequired,
+    popupData:   React.PropTypes.shape({
+        visible:  React.PropTypes.boolean,
+        content:  React.PropTypes.string,
+        messages: React.PropTypes.arrayOf(React.PropTypes.any),
+        status:   React.PropTypes.string.isRequired
+    }),
+    children:    React.PropTypes.object
 };
 
 Global.defaultProps = {
@@ -134,7 +132,8 @@ Global.defaultProps = {
 const mapStateToProps = (state) => {
     return {
         currentUser: state.currentUserReducer.get('currentUser'),
-        avatarUrl:   state.currentUserReducer.get('avatarUrl')
+        avatarUrl:   state.currentUserReducer.get('avatarUrl'),
+        popupData:   state.alertPopupReducer.get('popupData')
     };
 };
 

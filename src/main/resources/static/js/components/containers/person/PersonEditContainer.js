@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import PersonEdit from '../../views/person/PersonEdit';
-import {get, save, remove} from '../../../apis/PersonApi';
+import {get, remove, save} from '../../../apis/PersonApi';
 import {getStore} from '../../../store';
-import {getPersonSuccess, createPerson} from '../../../actions/person';
-import {showErrorPopup} from '../../utils/PopupManager';
+import {createPerson, getPersonSuccess} from '../../../actions/person';
+import {openErrorPopupWithContent} from '../../../actions/alertPopup';
 
 class PersonEditContainer extends React.Component {
     constructor(props) {
@@ -15,25 +15,22 @@ class PersonEditContainer extends React.Component {
     componentDidMount() {
         if (this.props.routeParams.id != undefined) {
             get(this.props.routeParams.id, (person) => getStore().dispatch(getPersonSuccess(person)));
-        } else {
+        }
+        else {
             getStore().dispatch(createPerson())
         }
     }
 
     render() {
-        return (<div>
-                <PersonEdit {...this.props.person}
-                            showError={this.props.showError}
-                            save={this.props.save}
-                            remove={this.props.remove}
-                            cancel={this.props.cancel}
-                />
+        return ( //
+            <div>
+                <PersonEdit {...this.props.person} showError={this.props.showError} save={this.props.save} remove={this.props.remove}
+                            cancel={this.props.cancel}/>
             </div>
         );
     }
 
 }
-
 
 const mapStateToProps = (state) => {
     return {
@@ -44,15 +41,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         showError: (message) => {
-            showErrorPopup(message);
+            getStore().dispatch(openErrorPopupWithContent(message));
         },
-        save: (person) => {
+        save:      (person) => {
             save(person, () => dispatch(push('/person/list')));
         },
-        remove: (id) => {
+        remove:    (id) => {
             remove(id, () => dispatch(push('/person/list')));
         },
-        cancel: () => {
+        cancel:    () => {
             dispatch(push('/person/list'));
         }
 
@@ -61,14 +58,11 @@ const mapDispatchToProps = (dispatch) => {
 
 PersonEditContainer.propTypes = {
     routeParams: React.PropTypes.any,
-    person: React.PropTypes.any,
-    showError: React.PropTypes.func.isRequired,
-    save: React.PropTypes.func.isRequired,
-    cancel: React.PropTypes.func.isRequired,
-    remove: React.PropTypes.func.isRequired
+    person:      React.PropTypes.any,
+    showError:   React.PropTypes.func.isRequired,
+    save:        React.PropTypes.func.isRequired,
+    cancel:      React.PropTypes.func.isRequired,
+    remove:      React.PropTypes.func.isRequired
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PersonEditContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonEditContainer);

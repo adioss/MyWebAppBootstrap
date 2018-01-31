@@ -1,16 +1,15 @@
-import {showErrors, showError} from '../components/utils/PopupManager';
+import {getStore} from '../store';
+import {openErrorPopupWithMessages} from '../actions/alertPopup';
 import {DELETE, POST, PUT} from './ApiConstants';
+
 const CSRF_VERBS = [DELETE, POST, PUT];
 
 class Fetch {
     fetch;
 
     static error(json) {
-        if (json.errors !== null && json.errors !== undefined) {
-            showErrors(json.errors);
-        } else {
-            showError(json)
-        }
+        const messages = (json.errors !== null && json.errors !== undefined) ? json.errors : Array.of(json);
+        getStore().dispatch(openErrorPopupWithMessages(messages));
     }
 
     static isCORSUrlOk(url) {
@@ -32,18 +31,14 @@ class Fetch {
         }
         this.fetch = fetch(url, params)
             .then((response) => {
-                      if (response.redirected) {
-                          location.reload();
-                      }
-                      return response;
-                  }
-            )
+                if (response.redirected) {
+                    location.reload();
+                }
+                return response;
+            })
             .catch((fetchError) => {
-                       console.log(
-                           'Error occured when fetching data: ' + fetchError.message
-                       );
-                   }
-            );
+                console.log('Error occured when fetching data: ' + fetchError.message);
+            });
     }
 
     then(success, error) {
@@ -57,13 +52,14 @@ class Fetch {
                 location.reload();
             }
             if (response.status === 200) {
-                if (response.headers.has('Content-Type') &&
-                    response.headers.get('Content-Type').includes('application/json')) {
+                if (response.headers.has('Content-Type') && response.headers.get('Content-Type').includes('application/json')) {
                     return response.json().then((data) => successMethod(data));
-                } else {
+                }
+                else {
                     return successMethod();
                 }
-            } else {
+            }
+            else {
                 if (error != null && error != undefined) {
                     return error();
                 }

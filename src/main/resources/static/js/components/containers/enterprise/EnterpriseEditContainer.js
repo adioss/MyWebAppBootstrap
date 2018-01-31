@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import EnterpriseEdit from '../../views/enterprise/EnterpriseEdit';
-import {get, save, remove} from '../../../apis/EnterpriseApi';
+import {get, remove, save} from '../../../apis/EnterpriseApi';
 import {getStore} from '../../../store';
-import {getEnterpriseSuccess, createEnterprise} from '../../../actions/enterprise';
-import {showErrorPopup} from '../../utils/PopupManager';
+import {createEnterprise, getEnterpriseSuccess} from '../../../actions/enterprise';
+import {openErrorPopupWithContent} from '../../../actions/alertPopup';
 
 class EnterpriseEditContainer extends React.Component {
     constructor(props) {
@@ -14,26 +14,21 @@ class EnterpriseEditContainer extends React.Component {
 
     componentDidMount() {
         if (this.props.routeParams.id != undefined) {
-            get(this.props.routeParams.id,
-                (enterprise) => getStore().dispatch(getEnterpriseSuccess(enterprise))
-            );
-        } else {
+            get(this.props.routeParams.id, (enterprise) => getStore().dispatch(getEnterpriseSuccess(enterprise)));
+        }
+        else {
             getStore().dispatch(createEnterprise())
         }
     }
 
     render() {
-        return (<div>
-                <EnterpriseEdit {...this.props.enterprise}
-                                showError={this.props.showError}
-                                save={this.props.save}
-                                remove={this.props.remove}
-                                cancel={this.props.cancel}
-                />
+        return ( //
+            <div>
+                <EnterpriseEdit {...this.props.enterprise} showError={this.props.showError} save={this.props.save} remove={this.props.remove}
+                                cancel={this.props.cancel}/>
             </div>
         );
     }
-
 }
 
 const mapStateToProps = (state) => {
@@ -45,15 +40,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         showError: (message) => {
-            showErrorPopup(message);
+            getStore().dispatch(openErrorPopupWithContent(message));
         },
-        save: (enterprise) => {
+        save:      (enterprise) => {
             save(enterprise, () => dispatch(push('/enterprise/list')));
         },
-        remove: (id) => {
+        remove:    (id) => {
             remove(id, () => dispatch(push('/enterprise/list')));
         },
-        cancel: () => {
+        cancel:    () => {
             dispatch(push('/enterprise/list'));
         }
     };
@@ -61,14 +56,11 @@ const mapDispatchToProps = (dispatch) => {
 
 EnterpriseEditContainer.propTypes = {
     routeParams: React.PropTypes.any,
-    enterprise: React.PropTypes.any,
-    showError: React.PropTypes.func.isRequired,
-    save: React.PropTypes.func.isRequired,
-    cancel: React.PropTypes.func.isRequired,
-    remove: React.PropTypes.func.isRequired
+    enterprise:  React.PropTypes.any,
+    showError:   React.PropTypes.func.isRequired,
+    save:        React.PropTypes.func.isRequired,
+    cancel:      React.PropTypes.func.isRequired,
+    remove:      React.PropTypes.func.isRequired
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EnterpriseEditContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(EnterpriseEditContainer);

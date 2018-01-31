@@ -12,17 +12,16 @@ export function hasUserRole(role) {
 
     return getStore().getState().currentUserReducer.get('currentUser').roles.indexOf(role) > -1;
 }
+
 /*eslint-disable no-unused-vars*/
 function checkLoggedTask() {
     setTimeout(() => {
         get(() => {
-                                      // do nothing
-                                      checkLoggedTask();
-                                  }, () => {
-                                      // redirect to login
-                                      window.location = '/logout';
-                                  }
-                   );
-               }, 5000
-    );
+            // do nothing
+            checkLoggedTask();
+        }, () => {
+            // redirect to login
+            window.location = '/logout';
+        });
+    }, 5000);
 }
