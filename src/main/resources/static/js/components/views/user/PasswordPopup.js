@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Button, Form, Modal} from 'semantic-ui-react';
 
-class PasswordPopup extends React.Component {
+class PasswordPopup extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,8 +15,7 @@ class PasswordPopup extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.state = nextProps;
-        this.setState(this.state);
+        this.setState(nextProps);
     }
 
     handleChange(item, event) {
@@ -67,12 +67,12 @@ class PasswordPopup extends React.Component {
 }
 
 PasswordPopup.propTypes = {
-    intl:                  React.PropTypes.any,
-    id:                    React.PropTypes.number,
-    newPassword:           React.PropTypes.string,
-    newPasswordValidation: React.PropTypes.string,
-    isShowingModal:        React.PropTypes.bool,
-    changePassword:        React.PropTypes.func.isRequired
+    intl:                  PropTypes.any,
+    id:                    PropTypes.number,
+    newPassword:           PropTypes.string,
+    newPasswordValidation: PropTypes.string,
+    isShowingModal:        PropTypes.bool,
+    changePassword:        PropTypes.func.isRequired
 };
 
 PasswordPopup.defaultProps = {

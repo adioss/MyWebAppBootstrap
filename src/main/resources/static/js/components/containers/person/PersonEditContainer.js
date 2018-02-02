@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import PersonEdit from '../../views/person/PersonEdit';
@@ -7,14 +8,14 @@ import {getStore} from '../../../store';
 import {createPerson, getPersonSuccess} from '../../../actions/person';
 import {openErrorPopupWithContent} from '../../../actions/alertPopup';
 
-class PersonEditContainer extends React.Component {
+class PersonEditContainer extends Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        if (this.props.routeParams.id != undefined) {
-            get(this.props.routeParams.id, (person) => getStore().dispatch(getPersonSuccess(person)));
+        if (this.props.params !== undefined && this.props.params.id !== undefined) {
+            get(this.props.params.id, (person) => getStore().dispatch(getPersonSuccess(person)));
         }
         else {
             getStore().dispatch(createPerson())
@@ -32,8 +33,9 @@ class PersonEditContainer extends React.Component {
 
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
+        params: ownProps.match.params,
         person: state.personReducer.get('person')
     };
 };
@@ -41,7 +43,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         showError: (message) => {
-            getStore().dispatch(openErrorPopupWithContent(message));
+            dispatch(openErrorPopupWithContent(message));
         },
         save:      (person) => {
             save(person, () => dispatch(push('/person/list')));
@@ -57,12 +59,12 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 PersonEditContainer.propTypes = {
-    routeParams: React.PropTypes.any,
-    person:      React.PropTypes.any,
-    showError:   React.PropTypes.func.isRequired,
-    save:        React.PropTypes.func.isRequired,
-    cancel:      React.PropTypes.func.isRequired,
-    remove:      React.PropTypes.func.isRequired
+    params:    PropTypes.any,
+    person:    PropTypes.any,
+    showError: PropTypes.func.isRequired,
+    save:      PropTypes.func.isRequired,
+    cancel:    PropTypes.func.isRequired,
+    remove:    PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonEditContainer);

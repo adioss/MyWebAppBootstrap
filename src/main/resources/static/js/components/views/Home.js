@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import {decrease, increase} from '../../actions/count';
 
-class Home extends React.Component {
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -43,12 +44,12 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-    number: React.PropTypes.number,
-    increase: React.PropTypes.func,
-    decrease: React.PropTypes.func
+    number:   PropTypes.number,
+    increase: PropTypes.func,
+    decrease: PropTypes.func
 };
 
-export default connect(
-    (state) => ({number: state.count.number}),
-    {increase, decrease}
-)(Home)
+export default connect((state) => ({number: state.count.number}), {
+    increase,
+    decrease
+})(Home)

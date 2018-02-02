@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import PersonList from '../../views/person/PersonList';
@@ -6,7 +7,7 @@ import {list} from '../../../apis/PersonApi';
 import {getStore} from '../../../store';
 import {listPersonsSuccess} from '../../../actions/person';
 
-class PersonListContainer extends React.Component {
+class PersonListContainer extends Component {
     constructor(props) {
         super(props);
     }
@@ -16,12 +17,9 @@ class PersonListContainer extends React.Component {
     }
 
     render() {
-        return (<div>
-                <PersonList persons={this.props.persons}
-                            list={this.props.list}
-                            edit={this.props.edit}
-                            create={this.props.create}
-                />
+        return ( //
+            <div>
+                <PersonList persons={this.props.persons} list={this.props.list} edit={this.props.edit} create={this.props.create}/>
             </div>
         );
     }
@@ -29,10 +27,10 @@ class PersonListContainer extends React.Component {
 }
 
 PersonListContainer.propTypes = {
-    persons: React.PropTypes.any,
-    list: React.PropTypes.func.isRequired,
-    edit: React.PropTypes.func.isRequired,
-    create: React.PropTypes.func.isRequired
+    persons: PropTypes.any,
+    list:    PropTypes.func.isRequired,
+    edit:    PropTypes.func.isRequired,
+    create:  PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -43,10 +41,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        list: (page, sort) => {
+        list:   (page, sort) => {
             list((persons) => dispatch(listPersonsSuccess(persons)), page, sort);
         },
-        edit: (id) => {
+        edit:   (id) => {
             dispatch(push('/person/edit/' + id));
         },
         create: () => {
@@ -55,7 +53,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PersonListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonListContainer);

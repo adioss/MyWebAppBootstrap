@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import UserList from '../../views/user/UserList';
@@ -6,7 +7,7 @@ import {list} from '../../../apis/UserApi';
 import {getStore} from '../../../store';
 import {listUsersSuccess} from '../../../actions/user';
 
-class UserListContainer extends React.Component {
+class UserListContainer extends Component {
     constructor(props) {
         super(props);
     }
@@ -16,23 +17,20 @@ class UserListContainer extends React.Component {
     }
 
     render() {
-        return (<div>
-                <UserList users={this.props.users}
-                          list={this.props.list}
-                          edit={this.props.edit}
-                          create={this.props.create}
-                />
+        return ( //
+            <div>
+                <UserList users={this.props.users} list={this.props.list} edit={this.props.edit} create={this.props.create}/>
             </div>
         );
     }
 }
 
 UserListContainer.propTypes = {
-    users: React.PropTypes.any,
-    isNew: React.PropTypes.bool,
-    list: React.PropTypes.func.isRequired,
-    edit: React.PropTypes.func.isRequired,
-    create: React.PropTypes.func.isRequired
+    users:  PropTypes.any,
+    isNew:  PropTypes.bool,
+    list:   PropTypes.func.isRequired,
+    edit:   PropTypes.func.isRequired,
+    create: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -43,10 +41,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        list: (page, sort) => {
+        list:   (page, sort) => {
             list((users) => dispatch(listUsersSuccess(users)), page, sort);
         },
-        edit: (id) => {
+        edit:   (id) => {
             dispatch(push('/user/edit/' + id));
         },
         create: () => {
@@ -55,7 +53,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(UserListContainer);

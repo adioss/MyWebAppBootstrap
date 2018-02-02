@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import {updateIntl} from 'react-intl-redux';
@@ -10,11 +11,11 @@ import eni18n from '../../../i18n/en-US';
 import fri18n from '../../../i18n/fr-FR';
 import {openErrorPopupWithContent} from '../../../actions/alertPopup';
 
-class UserEditContainer extends React.Component {
+class UserEditContainer extends Component {
     constructor(props) {
         super(props);
-        if (this.props.routeParams.id != undefined) {
-            get(this.props.routeParams.id, (user) => {
+        if (this.props.params !== undefined && this.props.params.id !== undefined) {
+            get(this.props.params.id, (user) => {
                 getStore().dispatch(getUserSuccess(user));
             });
         }
@@ -25,7 +26,7 @@ class UserEditContainer extends React.Component {
 
     render() {
         return (<div>
-                {this.props.user != null && (this.props.user.id != null || this.props.isNew) ?
+                {this.props.user !== undefined && (this.props.user.id !== undefined || this.props.isNew) ?
                  <UserEdit {...this.props.user} showError={this.props.showError} save={this.props.save} remove={this.props.remove}
                            cancel={this.props.cancel}/> : <br/>}
             </div>
@@ -34,32 +35,33 @@ class UserEditContainer extends React.Component {
 }
 
 UserEditContainer.propTypes = {
-    routeParams: React.PropTypes.any,
-    user:        React.PropTypes.any,
-    isNew:       React.PropTypes.bool,
-    showError:   React.PropTypes.func.isRequired,
-    save:        React.PropTypes.func.isRequired,
-    cancel:      React.PropTypes.func.isRequired,
-    remove:      React.PropTypes.func.isRequired
+    params:    PropTypes.any,
+    user:      PropTypes.any,
+    isNew:     PropTypes.bool,
+    showError: PropTypes.func.isRequired,
+    save:      PropTypes.func.isRequired,
+    cancel:    PropTypes.func.isRequired,
+    remove:    PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        user:  state.userReducer.get('user'),
-        isNew: state.userReducer.get('isNew')
+        params: ownProps.match.params,
+        user:   state.userReducer.get('user'),
+        isNew:  state.userReducer.get('isNew')
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         showError: (message) => {
-            getStore().dispatch(openErrorPopupWithContent(message));
+            dispatch(openErrorPopupWithContent(message));
         },
         save:      (user) => {
             save(user, () => {
                 if (getStore().getState().currentUserReducer.get('currentUser').id === user.id) {
                     const language = [eni18n, fri18n].find((item) => item.language === user.language);
-                    getStore().dispatch(updateIntl(language));
+                    dispatch(updateIntl(language));
                 }
                 dispatch(push('/user/list'))
             });

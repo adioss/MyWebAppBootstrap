@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Button, Header, Icon, Pagination, Table} from 'semantic-ui-react';
 
-class PersonList extends React.Component {
+class PersonList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,12 +39,12 @@ class PersonList extends React.Component {
                     <Table.Body>
                         {this.props.persons !== undefined && this.props.persons.content !== undefined ? //
                          this.props.persons.content.map((person) => //
-                             <Table.Row onClick={() => this.props.edit(person.id)} key={person.id}>
+                             (<Table.Row onClick={() => this.props.edit(person.id)} key={person.id}>
                                  <Table.Cell>{person.id}</Table.Cell>
                                  <Table.Cell>{person.name}</Table.Cell>
                                  <Table.Cell>{person.url}</Table.Cell>
-                                 <Table.Cell>{person.enterprise !== undefined ? person.enterprise.name : ''}</Table.Cell>
-                             </Table.Row>) : <Table.Row/>}
+                                 <Table.Cell>{person.enterprise !== undefined && person.enterprise !== null ? person.enterprise.name : ''}</Table.Cell>
+                             </Table.Row>)) : <Table.Row/>}
                     </Table.Body>
                     <Table.Footer fullWidth>
                         <Table.Row>
@@ -66,20 +67,20 @@ class PersonList extends React.Component {
 }
 
 PersonList.propTypes = {
-    persons: React.PropTypes.shape({
-        content:          React.PropTypes.any,
-        first:            React.PropTypes.any,
-        last:             React.PropTypes.any,
-        number:           React.PropTypes.number,
-        size:             React.PropTypes.number,
-        totalElements:    React.PropTypes.number,
-        totalPages:       React.PropTypes.number,
-        numberOfElements: React.PropTypes.number,
-        sort:             React.PropTypes.any
+    persons: PropTypes.shape({
+        content:          PropTypes.any,
+        first:            PropTypes.any,
+        last:             PropTypes.any,
+        number:           PropTypes.number,
+        size:             PropTypes.number,
+        totalElements:    PropTypes.number,
+        totalPages:       PropTypes.number,
+        numberOfElements: PropTypes.number,
+        sort:             PropTypes.any
     }),
-    list:    React.PropTypes.func.isRequired,
-    edit:    React.PropTypes.func.isRequired,
-    create:  React.PropTypes.func.isRequired
+    list:    PropTypes.func.isRequired,
+    edit:    PropTypes.func.isRequired,
+    create:  PropTypes.func.isRequired
 };
 
 PersonList.defaultProps = {

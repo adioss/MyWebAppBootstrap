@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Button, Form, Header, Icon} from 'semantic-ui-react';
-import {MultiSelect} from 'react-selectize';
 import {ADMIN_ROLE, ENGLISH_LANGUAGE, FRENCH_LANGUAGE, USER_ROLE} from '../../../actions/constants';
 import {changePassword} from '../../../apis/UserApi';
 import AvatarEditor from './AvatarEditor';
@@ -19,7 +19,7 @@ const roleDataProvider = [
     }
 ];
 
-class UserEdit extends React.Component {
+class UserEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,8 +35,7 @@ class UserEdit extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.state = nextProps;
-        this.setState(this.state);
+        this.setState(nextProps);
     }
 
     onSaveClicked() {
@@ -109,8 +108,9 @@ class UserEdit extends React.Component {
                     </Form.Field>
                     <Form.Field className={this.state.isProfileEdition ? 'hidden' : ''}>
                         <label><FormattedMessage id='user.edition.label.roles.value' defaultMessage='Roles'/></label>
-                        <MultiSelect options={roleDataProvider} placeholder={formatMessage({id: 'user.edition.input.role.placeholder'})}
-                                     defaultValues={this.getInitialRoleValues()} onValuesChange={(selectedRoles) => this.handleRolesChange(selectedRoles)}/>
+                        {/*TODO */}
+                        {/*<MultiSelect options={roleDataProvider} placeholder={formatMessage({id: 'user.edition.input.role.placeholder'})}*/}
+                        {/*defaultValues={this.getInitialRoleValues()} onValuesChange={(selectedRoles) => this.handleRolesChange(selectedRoles)}/>*/}
                     </Form.Field>
                     <Form.Field className={this.state.id === null ? 'hidden' : ''}>
                         <label><FormattedMessage id='user.edition.password.change.label' defaultMessage='Password'/></label>
@@ -138,18 +138,18 @@ class UserEdit extends React.Component {
 
 UserEdit.propTypes = {
     intl:             intlShape,
-    id:               React.PropTypes.number,
-    username:         React.PropTypes.string,
-    email:            React.PropTypes.string,
-    language:         React.PropTypes.string,
-    roles:            React.PropTypes.arrayOf(React.PropTypes.oneOf([ADMIN_ROLE, USER_ROLE])),
-    isProfileEdition: React.PropTypes.bool,
-    changePassword:   React.PropTypes.func.isRequired,
-    save:             React.PropTypes.func.isRequired,
-    cancel:           React.PropTypes.func,
-    remove:           React.PropTypes.func,
-    isShowingModal:   React.PropTypes.bool,
-    avatarInputFile:  React.PropTypes.any
+    id:               PropTypes.number,
+    username:         PropTypes.string,
+    email:            PropTypes.string,
+    language:         PropTypes.string,
+    roles:            PropTypes.arrayOf(PropTypes.oneOf([ADMIN_ROLE, USER_ROLE])),
+    isProfileEdition: PropTypes.bool,
+    changePassword:   PropTypes.func.isRequired,
+    save:             PropTypes.func.isRequired,
+    cancel:           PropTypes.func,
+    remove:           PropTypes.func,
+    isShowingModal:   PropTypes.bool,
+    avatarInputFile:  PropTypes.any
 };
 
 UserEdit.defaultProps = {

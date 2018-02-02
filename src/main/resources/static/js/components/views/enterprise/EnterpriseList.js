@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Button, Header, Icon, Pagination, Table} from 'semantic-ui-react';
 
-class EnterpriseList extends React.Component {
+class EnterpriseList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -37,11 +38,11 @@ class EnterpriseList extends React.Component {
                     <Table.Body>
                         {this.props.enterprises !== undefined && this.props.enterprises.content !== undefined ? //
                          this.props.enterprises.content.map((enterprise) => //
-                             <Table.Row onClick={() => this.props.edit(enterprise.id)} key={enterprise.id}>
+                             (<Table.Row onClick={() => this.props.edit(enterprise.id)} key={enterprise.id}>
                                  <Table.Cell>{enterprise.id}</Table.Cell>
                                  <Table.Cell>{enterprise.name}</Table.Cell>
                                  <Table.Cell>{enterprise.url}</Table.Cell>
-                             </Table.Row>) : <Table.Row/>}
+                             </Table.Row>)) : <Table.Row/>}
                     </Table.Body>
                     <Table.Footer fullWidth>
                         <Table.Row>
@@ -64,20 +65,20 @@ class EnterpriseList extends React.Component {
 }
 
 EnterpriseList.propTypes = {
-    enterprises: React.PropTypes.shape({
-        content:          React.PropTypes.any,
-        first:            React.PropTypes.any,
-        last:             React.PropTypes.any,
-        number:           React.PropTypes.number,
-        size:             React.PropTypes.number,
-        totalElements:    React.PropTypes.number,
-        totalPages:       React.PropTypes.number,
-        numberOfElements: React.PropTypes.number,
-        sort:             React.PropTypes.any
+    enterprises: PropTypes.shape({
+        content:          PropTypes.any,
+        first:            PropTypes.any,
+        last:             PropTypes.any,
+        number:           PropTypes.number,
+        size:             PropTypes.number,
+        totalElements:    PropTypes.number,
+        totalPages:       PropTypes.number,
+        numberOfElements: PropTypes.number,
+        sort:             PropTypes.any
     }),
-    list:        React.PropTypes.func.isRequired,
-    edit:        React.PropTypes.func.isRequired,
-    create:      React.PropTypes.func.isRequired
+    list:        PropTypes.func.isRequired,
+    edit:        PropTypes.func.isRequired,
+    create:      PropTypes.func.isRequired
 };
 
 EnterpriseList.defaultProps = {

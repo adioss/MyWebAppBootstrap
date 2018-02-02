@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
 import {Icon} from 'semantic-ui-react';
 import Fetch from '../../../apis/Fetch';
@@ -7,7 +8,7 @@ import {getStore} from '../../../store';
 import {getAvatarUrl} from '../../utils/CurrentUserManager';
 import {updateCurrentUserAvatar} from '../../../actions/currentUser';
 
-class AvatarEditor extends React.Component {
+class AvatarEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -62,9 +63,9 @@ class AvatarEditor extends React.Component {
 }
 
 AvatarEditor.propTypes = {
-    intl:      React.PropTypes.any,
-    id:        React.PropTypes.number,
-    avatarUrl: React.PropTypes.string
+    intl:      PropTypes.any,
+    id:        PropTypes.number,
+    avatarUrl: PropTypes.string
 };
 
 AvatarEditor.defaultProps = {

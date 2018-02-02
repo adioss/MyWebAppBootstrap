@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import EnterpriseList from '../../views/enterprise/EnterpriseList';
@@ -6,7 +7,7 @@ import {list} from '../../../apis/EnterpriseApi';
 import {getStore} from '../../../store';
 import {listEnterprisesSuccess} from '../../../actions/enterprise';
 
-class EnterpriseListContainer extends React.Component {
+class EnterpriseListContainer extends Component {
     constructor(props) {
         super(props);
     }
@@ -16,21 +17,19 @@ class EnterpriseListContainer extends React.Component {
     }
 
     render() {
-        return (<div>
-                <EnterpriseList enterprises={this.props.enterprises}
-                                list={this.props.list}
-                                edit={this.props.edit}
-                                create={this.props.create}/>
+        return ( //
+            <div>
+                <EnterpriseList enterprises={this.props.enterprises} list={this.props.list} edit={this.props.edit} create={this.props.create}/>
             </div>
         );
     }
 }
 
 EnterpriseListContainer.propTypes = {
-    enterprises: React.PropTypes.any,
-    list: React.PropTypes.func.isRequired,
-    edit: React.PropTypes.func.isRequired,
-    create: React.PropTypes.func.isRequired
+    enterprises: PropTypes.any,
+    list:        PropTypes.func.isRequired,
+    edit:        PropTypes.func.isRequired,
+    create:      PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -41,10 +40,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        list: (page, sort) => {
+        list:   (page, sort) => {
             list((enterprises) => dispatch(listEnterprisesSuccess(enterprises)), page, sort);
         },
-        edit: (id) => {
+        edit:   (id) => {
             dispatch(push('/enterprise/edit/' + id));
         },
         create: () => {
@@ -53,7 +52,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EnterpriseListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(EnterpriseListContainer);

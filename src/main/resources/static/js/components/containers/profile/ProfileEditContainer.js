@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {updateIntl} from 'react-intl-redux';
 import UserEdit from '../../views/user/UserEdit';
@@ -9,14 +10,14 @@ import fri18n from '../../../i18n/fr-FR';
 import {openErrorPopupWithContent} from '../../../actions/alertPopup';
 import {getStore} from '../../../store';
 
-class ProfileEditContainer extends React.Component {
+class ProfileEditContainer extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (<div>
-                {this.props.user != null && this.props.user.id != null ?
+                {this.props.user !== undefined && this.props.user.id !== null ?
                  <UserEdit {...this.props.user} isProfileEdition={this.props.isProfileEdition} changePassword={changePassword} showError={this.props.showError}
                            save={this.props.save}/> : <br/>}
             </div>
@@ -25,10 +26,10 @@ class ProfileEditContainer extends React.Component {
 }
 
 ProfileEditContainer.propTypes = {
-    user:             React.PropTypes.any,
-    isProfileEdition: React.PropTypes.bool,
-    showError:        React.PropTypes.func.isRequired,
-    save:             React.PropTypes.func.isRequired
+    user:             PropTypes.any,
+    isProfileEdition: PropTypes.bool,
+    showError:        PropTypes.func.isRequired,
+    save:             PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

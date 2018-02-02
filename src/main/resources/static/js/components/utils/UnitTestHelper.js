@@ -1,9 +1,15 @@
 import React from 'react';
 import {IntlProvider, intlShape} from 'react-intl';
-import {mount, shallow} from 'enzyme';
+import Enzyme, {mount, shallow} from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import locale from '../../i18n/en-US';
 
-const intlProvider = new IntlProvider({locale: 'en', messages: locale.messages}, {});
+Enzyme.configure({adapter: new Adapter()});
+
+const intlProvider = new IntlProvider({
+    locale:   'en',
+    messages: locale.messages
+}, {});
 const {intl} = intlProvider.getChildContext();
 
 function nodeWithIntlProp(node) {
@@ -11,20 +17,15 @@ function nodeWithIntlProp(node) {
 }
 
 export function shallowWithIntl(node, {context}) {
-    return shallow(
-        nodeWithIntlProp(node),
-        {
-            context: Object.assign({}, context, {intl}),
-        }
-    );
+    return shallow(nodeWithIntlProp(node), {
+        context: Object.assign({}, context, {intl}),
+    });
 }
 
 export function mountWithIntl(node, {context, childContextTypes}) {
-    return mount(
-        nodeWithIntlProp(node),
-        {
-            context: Object.assign({}, context, {intl}),
-            childContextTypes: Object.assign({}, {intl: intlShape}, childContextTypes)
-        }
-    );
+
+    return mount(nodeWithIntlProp(node), {
+        context:           Object.assign({}, context, {intl}),
+        childContextTypes: Object.assign({}, {intl: intlShape}, childContextTypes)
+    });
 }

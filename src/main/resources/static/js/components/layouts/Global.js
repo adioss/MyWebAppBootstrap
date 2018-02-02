@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import {Route} from 'react-router';
+import {Link} from 'react-router-dom';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {updateIntl} from 'react-intl-redux';
 import {Grid, Icon, Image, Menu, Segment, Sidebar} from 'semantic-ui-react';
@@ -13,6 +15,13 @@ import AlertPopup from '../utils/AlertPopup';
 import eni18n from '../../i18n/en-US';
 import fri18n from '../../i18n/fr-FR';
 import {hasUserRole} from '../utils/CurrentUserManager';
+import EnterpriseListContainer from '../containers/enterprise/EnterpriseListContainer';
+import EnterpriseEditContainer from '../containers/enterprise/EnterpriseEditContainer';
+import PersonListContainer from '../containers/person/PersonListContainer';
+import PersonEditContainer from '../containers/person/PersonEditContainer';
+import UserListContainer from '../containers/user/UserListContainer';
+import UserEditContainer from '../containers/user/UserEditContainer';
+import ProfileEditContainer from '../containers/profile/ProfileEditContainer';
 
 /*eslint-disable no-unused-vars*/
 // prevent optimize import auto removal
@@ -21,7 +30,7 @@ const customStyleImport = customStyle;
 //noinspection JSUnusedLocalSymbols
 const selectizeStyleImport = selectizeStyle;
 
-class Global extends React.Component {
+class Global extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -95,7 +104,18 @@ class Global extends React.Component {
                         <Grid className='grid-padded' style={{'paddingLeft': '10px'}}>
                             <Grid.Row>
                                 <Grid.Column width={this.state.isMenuExpanded ? 14 : 15}>
-                                    <Segment>{this.props.children}</Segment>
+                                    <Segment>
+                                        <Route path='/enterprise/list' component={EnterpriseListContainer}/>
+                                        <Route path='/enterprise/new' component={EnterpriseEditContainer}/>
+                                        <Route path='/enterprise/edit/:id' component={EnterpriseEditContainer}/>
+                                        <Route path='/person/list' component={PersonListContainer}/>
+                                        <Route path='/person/new' component={PersonEditContainer}/>
+                                        <Route path='/person/edit/:id' component={PersonEditContainer}/>
+                                        <Route path='/user/list' component={UserListContainer}/>
+                                        <Route path='/user/new' component={UserEditContainer}/>
+                                        <Route path='/user/edit/:id' component={UserEditContainer}/>
+                                        <Route path='/profile' component={ProfileEditContainer}/>
+                                    </Segment>
                                 </Grid.Column>
                                 <Grid.Column width={this.state.isMenuExpanded ? 2 : 1}/>
                             </Grid.Row>
@@ -109,20 +129,20 @@ class Global extends React.Component {
 
 Global.propTypes = {
     intl:        intlShape.isRequired,
-    currentUser: React.PropTypes.shape({
-        id:       React.PropTypes.number.isRequired,
-        username: React.PropTypes.string.isRequired,
-        email:    React.PropTypes.string.isRequired,
-        roles:    React.PropTypes.arrayOf(React.PropTypes.oneOf([ADMIN_ROLE, USER_ROLE]))
+    currentUser: PropTypes.shape({
+        id:       PropTypes.number.isRequired,
+        username: PropTypes.string.isRequired,
+        email:    PropTypes.string.isRequired,
+        roles:    PropTypes.arrayOf(PropTypes.oneOf([ADMIN_ROLE, USER_ROLE]))
     }),
-    avatarUrl:   React.PropTypes.string.isRequired,
-    popupData:   React.PropTypes.shape({
-        visible:  React.PropTypes.boolean,
-        content:  React.PropTypes.string,
-        messages: React.PropTypes.arrayOf(React.PropTypes.any),
-        status:   React.PropTypes.string.isRequired
+    avatarUrl:   PropTypes.string.isRequired,
+    popupData:   PropTypes.shape({
+        visible:  PropTypes.boolean,
+        content:  PropTypes.string,
+        messages: PropTypes.arrayOf(PropTypes.any),
+        status:   PropTypes.string.isRequired
     }),
-    children:    React.PropTypes.object
+    children:    PropTypes.object
 };
 
 Global.defaultProps = {

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import EnterpriseEdit from '../../views/enterprise/EnterpriseEdit';
@@ -7,14 +8,14 @@ import {getStore} from '../../../store';
 import {createEnterprise, getEnterpriseSuccess} from '../../../actions/enterprise';
 import {openErrorPopupWithContent} from '../../../actions/alertPopup';
 
-class EnterpriseEditContainer extends React.Component {
+class EnterpriseEditContainer extends Component {
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        if (this.props.routeParams.id != undefined) {
-            get(this.props.routeParams.id, (enterprise) => getStore().dispatch(getEnterpriseSuccess(enterprise)));
+        if (this.props.params !== undefined && this.props.params.id !== undefined) {
+            get(this.props.params.id, (enterprise) => getStore().dispatch(getEnterpriseSuccess(enterprise)));
         }
         else {
             getStore().dispatch(createEnterprise())
@@ -31,8 +32,9 @@ class EnterpriseEditContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
+        params:     ownProps.match.params,
         enterprise: state.enterpriseReducer.get('enterprise')
     };
 };
@@ -55,12 +57,12 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 EnterpriseEditContainer.propTypes = {
-    routeParams: React.PropTypes.any,
-    enterprise:  React.PropTypes.any,
-    showError:   React.PropTypes.func.isRequired,
-    save:        React.PropTypes.func.isRequired,
-    cancel:      React.PropTypes.func.isRequired,
-    remove:      React.PropTypes.func.isRequired
+    params:     PropTypes.any,
+    enterprise: PropTypes.any,
+    showError:  PropTypes.func.isRequired,
+    save:       PropTypes.func.isRequired,
+    cancel:     PropTypes.func.isRequired,
+    remove:     PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EnterpriseEditContainer);

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl} from 'react-intl';
 import {Button, Header, Icon, Pagination, Table} from 'semantic-ui-react';
 
-class UserList extends React.Component {
+class UserList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,12 +39,12 @@ class UserList extends React.Component {
                     <Table.Body>
                         {this.props.users !== undefined && this.props.users.content !== undefined ? //
                          this.props.users.content.map((user) => //
-                             <Table.Row onClick={() => this.props.edit(user.id)} key={user.id}>
+                             (<Table.Row onClick={() => this.props.edit(user.id)} key={user.id}>
                                  <Table.Cell>{user.id}</Table.Cell>
                                  <Table.Cell>{user.username}</Table.Cell>
                                  <Table.Cell>{user.email}</Table.Cell>
                                  <Table.Cell>{user.roles !== undefined ? user.roles.join(', ') : ''}</Table.Cell>
-                             </Table.Row>) : <Table.Row/>}
+                             </Table.Row>)) : <Table.Row/>}
                     </Table.Body>
                     <Table.Footer fullWidth>
                         <Table.Row>
@@ -66,20 +67,20 @@ class UserList extends React.Component {
 }
 
 UserList.propTypes = {
-    users:  React.PropTypes.shape({
-        content:          React.PropTypes.any,
-        first:            React.PropTypes.any,
-        last:             React.PropTypes.any,
-        number:           React.PropTypes.number,
-        size:             React.PropTypes.number,
-        totalElements:    React.PropTypes.number,
-        totalPages:       React.PropTypes.number,
-        numberOfElements: React.PropTypes.number,
-        sort:             React.PropTypes.any
+    users:  PropTypes.shape({
+        content:          PropTypes.any,
+        first:            PropTypes.any,
+        last:             PropTypes.any,
+        number:           PropTypes.number,
+        size:             PropTypes.number,
+        totalElements:    PropTypes.number,
+        totalPages:       PropTypes.number,
+        numberOfElements: PropTypes.number,
+        sort:             PropTypes.any
     }),
-    list:   React.PropTypes.func.isRequired,
-    edit:   React.PropTypes.func.isRequired,
-    create: React.PropTypes.func.isRequired
+    list:   PropTypes.func.isRequired,
+    edit:   PropTypes.func.isRequired,
+    create: PropTypes.func.isRequired
 };
 
 UserList.defaultProps = {

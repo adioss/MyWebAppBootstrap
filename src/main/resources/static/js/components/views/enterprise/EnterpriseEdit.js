@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Button, Form, Header, Icon} from 'semantic-ui-react';
 
-class EnterpriseEdit extends React.Component {
+class EnterpriseEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,8 +14,7 @@ class EnterpriseEdit extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.state = nextProps;
-        this.setState(this.state);
+        this.setState(nextProps);
     }
 
     onSaveClicked() {
@@ -64,12 +64,12 @@ class EnterpriseEdit extends React.Component {
 
 EnterpriseEdit.propTypes = {
     intl:   intlShape.isRequired,
-    id:     React.PropTypes.number,
-    name:   React.PropTypes.string,
-    url:    React.PropTypes.string,
-    save:   React.PropTypes.func.isRequired,
-    cancel: React.PropTypes.func.isRequired,
-    remove: React.PropTypes.func.isRequired
+    id:     PropTypes.number,
+    name:   PropTypes.string,
+    url:    PropTypes.string,
+    save:   PropTypes.func.isRequired,
+    cancel: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired
 };
 
 EnterpriseEdit.defaultProps = {

@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Message, Portal} from 'semantic-ui-react';
 import {injectIntl, intlShape} from 'react-intl';
 
 export const ERROR_TYPE = 'ERROR_TYPE';
 export const INFO_TYPE = 'INFO_TYPE';
 
-class AlertPopup extends React.Component {
+class AlertPopup extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -94,10 +95,10 @@ class AlertPopup extends React.Component {
 
 AlertPopup.propTypes = {
     intl:     intlShape,
-    visible:  React.PropTypes.bool,
-    content:  React.PropTypes.string,
-    messages: React.PropTypes.arrayOf(React.PropTypes.any),
-    status:   React.PropTypes.string
+    visible:  PropTypes.bool,
+    content:  PropTypes.string,
+    messages: PropTypes.arrayOf(PropTypes.any),
+    status:   PropTypes.string
 };
 
 export default injectIntl(AlertPopup);

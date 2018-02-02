@@ -2,11 +2,11 @@ import {getStore} from '../../store';
 import {get} from '../../apis/CurrentUserApi';
 
 export function getAvatarUrl(userId) {
-    return '/api/avatars/' + (userId != null ? userId : '-1') + '?temp=' + Math.random();
+    return '/api/avatars/' + (userId !== undefined ? userId : '-1') + '?temp=' + Math.random();
 }
 
 export function hasUserRole(role) {
-    if (getStore().getState().currentUserReducer.get('currentUser') == null) {
+    if (getStore().getState().currentUserReducer.get('currentUser') === undefined) {
         return false;
     }
 

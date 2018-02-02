@@ -39,6 +39,8 @@ My simple webapp bootstrap V2:
    * launch test (and watch changes)
         * npm run test 
         * npm run test:watch
+   * udpate npm libs
+        * ncu -u
 
 * Configuration
    * -Dspring.profiles.active=dev as VM arguments

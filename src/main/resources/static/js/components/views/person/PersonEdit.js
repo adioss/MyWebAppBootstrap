@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {Button, Form, Header, Icon} from 'semantic-ui-react';
-import {SimpleSelect} from 'react-selectize';
 import {search} from '../../../apis/EnterpriseApi';
 
-class PersonEdit extends React.Component {
+class PersonEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,8 +20,7 @@ class PersonEdit extends React.Component {
         if (nextProps.enterprise !== null) {
             nextProps.enterprise.label = nextProps.enterprise.name;
         }
-        this.state = nextProps;
-        this.setState(this.state);
+        this.setState(nextProps);
     }
 
     onSaveClicked() {
@@ -74,10 +73,10 @@ class PersonEdit extends React.Component {
                     </Form.Field>
                     <Form.Field>
                         <label><FormattedMessage id='person.edition.label.enterprise.value' defaultMessage='Enterprise'/></label>
-                        <SimpleSelect uid={(item) => item.name} ref='select' value={this.state.enterprise} options={this.state.enterprises}
-                                      placeholder={formatMessage({id: 'person.edition.input.enterprise.placeholder'})}
-                                      onValueChange={(selected) => this.handleEnterpriseChange(selected)}
-                                      onSearchChange={(filter) => this.fetchEnterprise(filter)}/>
+                        {/*<SimpleSelect uid={(item) => item.name} ref='select' value={this.state.enterprise} options={this.state.enterprises}*/}
+                        {/*placeholder={formatMessage({id: 'person.edition.input.enterprise.placeholder'})}*/}
+                        {/*onValueChange={(selected) => this.handleEnterpriseChange(selected)}*/}
+                        {/*onSearchChange={(filter) => this.fetchEnterprise(filter)}/>*/}
                     </Form.Field>
                     <Button primary onClick={() => this.onSaveClicked()}>
                         <FormattedMessage id='global.button.save.label' defaultMessage='Save'/>
@@ -96,19 +95,19 @@ class PersonEdit extends React.Component {
 
 PersonEdit.propTypes = {
     intl:       intlShape.isRequired,
-    id:         React.PropTypes.number,
-    name:       React.PropTypes.string,
-    label:      React.PropTypes.string,
-    url:        React.PropTypes.string,
-    enterprise: React.PropTypes.shape({
-        id:    React.PropTypes.number.isRequired,
-        name:  React.PropTypes.string.isRequired,
-        label: React.PropTypes.string,
-        url:   React.PropTypes.string.isRequired
+    id:         PropTypes.number,
+    name:       PropTypes.string,
+    label:      PropTypes.string,
+    url:        PropTypes.string,
+    enterprise: PropTypes.shape({
+        id:    PropTypes.number.isRequired,
+        name:  PropTypes.string.isRequired,
+        label: PropTypes.string,
+        url:   PropTypes.string.isRequired
     }),
-    save:       React.PropTypes.func.isRequired,
-    cancel:     React.PropTypes.func.isRequired,
-    remove:     React.PropTypes.func.isRequired
+    save:       PropTypes.func.isRequired,
+    cancel:     PropTypes.func.isRequired,
+    remove:     PropTypes.func.isRequired
 };
 
 PersonEdit.defaultProps = {
