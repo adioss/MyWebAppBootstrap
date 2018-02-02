@@ -22,6 +22,7 @@ import PersonEditContainer from '../containers/person/PersonEditContainer';
 import UserListContainer from '../containers/user/UserListContainer';
 import UserEditContainer from '../containers/user/UserEditContainer';
 import ProfileEditContainer from '../containers/profile/ProfileEditContainer';
+import Dashboard from '../views/Dashboard';
 
 /*eslint-disable no-unused-vars*/
 // prevent optimize import auto removal
@@ -61,6 +62,14 @@ class Global extends Component {
                             <Icon name='sidebar' size='large'/>
                         </Menu.Item>
                         {/*onClick={() => this.setState({menuActiveItem: 'enterprise'})}*/}
+                        <Menu.Item name='dashboard' active={this.state.menuActiveItem === 'dashboard'}>
+                            <Link to='/'>
+                                <Icon name='dashboard' size='large'/>
+                                <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
+                                    <FormattedMessage id='menu.enterprises.link' defaultMessage='Dashboard'/>
+                                </div>
+                            </Link>
+                        </Menu.Item>
                         <Menu.Item name='enterprise' active={this.state.menuActiveItem === 'enterprise'}>
                             <Link to='/enterprise/list'>
                                 <Icon name='industry' size='large'/>
@@ -105,6 +114,7 @@ class Global extends Component {
                             <Grid.Row>
                                 <Grid.Column width={this.state.isMenuExpanded ? 14 : 15}>
                                     <Segment>
+                                        <Route path='/' exact component={Dashboard}/>
                                         <Route path='/enterprise/list' component={EnterpriseListContainer}/>
                                         <Route path='/enterprise/new' component={EnterpriseEditContainer}/>
                                         <Route path='/enterprise/edit/:id' component={EnterpriseEditContainer}/>

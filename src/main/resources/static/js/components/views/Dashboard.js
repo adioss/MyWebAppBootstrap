@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import {decrease, increase} from '../../actions/count';
 
-class Home extends Component {
+class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,22 +17,22 @@ class Home extends Component {
             <div>
                 <div className='header'>
                     <h1 className='principal-content-title'>
-                        <FormattedMessage id='home.title' defaultMessage='Home page'/>
+                        <FormattedMessage id='dashboard.title' defaultMessage='Dashboard page'/>
                     </h1>
                 </div>
                 <br/>
                 <div>
                     <div>
-                        <FormattedMessage id='home.example.label' defaultMessage='Here a basic react component:'/>
+                        <FormattedMessage id='dashboard.example.label' defaultMessage='Here a basic react component:'/>
                         <br/>
-                        <FormattedMessage id='home.example.number.label' defaultMessage='Number:'/>
+                        <FormattedMessage id='dashboard.example.number.label' defaultMessage='Number:'/>
                         {this.props.number}
                         <br/>
                         <button onClick={() => this.props.increase(1)}>
-                            <FormattedMessage id='home.example.button.increase.label' defaultMessage='Increase'/>
+                            <FormattedMessage id='dashboard.example.button.increase.label' defaultMessage='Increase'/>
                         </button>
                         <button onClick={() => this.props.decrease(1)}>
-                            <FormattedMessage id='home.example.button.decrease.label' defaultMessage='Decrease'/>
+                            <FormattedMessage id='dashboard.example.button.decrease.label' defaultMessage='Decrease'/>
                         </button>
                         <br/>
                     </div>
@@ -43,7 +43,7 @@ class Home extends Component {
 
 }
 
-Home.propTypes = {
+Dashboard.propTypes = {
     number:   PropTypes.number,
     increase: PropTypes.func,
     decrease: PropTypes.func
@@ -52,4 +52,4 @@ Home.propTypes = {
 export default connect((state) => ({number: state.count.number}), {
     increase,
     decrease
-})(Home)
+})(Dashboard)
