@@ -1,8 +1,11 @@
 import {Map} from 'immutable';
-import {LIST_PERSON_SUCCESS, GET_PERSON_SUCCESS, SAVE_PERSON, CREATE_PERSON} from '../actions/constants';
+import {CREATE_PERSON, GET_PERSON_SUCCESS, LIST_PERSON_SUCCESS, SAVE_PERSON} from '../actions/constants';
 import {resetStateBeforeLocationChange} from './reducerUtils';
 
-const initialState = Map({persons: Map([]), person: Map()});
+const initialState = Map({
+    persons: Map([]),
+    person:  Map()
+});
 
 const personReducer = (state = initialState, action) => {
     state = resetStateBeforeLocationChange('/person/', state, initialState, action);

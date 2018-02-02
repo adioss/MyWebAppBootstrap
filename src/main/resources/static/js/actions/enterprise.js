@@ -1,15 +1,15 @@
-import {LIST_ENTERPRISE_SUCCESS, GET_ENTERPRISE_SUCCESS, CREATE_ENTERPRISE} from './constants';
+import {CREATE_ENTERPRISE, GET_ENTERPRISE_SUCCESS, LIST_ENTERPRISE_SUCCESS} from './constants';
 
 export function listEnterprisesSuccess(enterprises) {
     return {
-        type: LIST_ENTERPRISE_SUCCESS,
+        type:        LIST_ENTERPRISE_SUCCESS,
         enterprises: enterprises
     }
 }
 
 export function getEnterpriseSuccess(enterprise) {
     return {
-        type: GET_ENTERPRISE_SUCCESS,
+        type:       GET_ENTERPRISE_SUCCESS,
         enterprise: enterprise
     }
 }

@@ -1,15 +1,15 @@
-import {INCREASE, DECREASE} from './constants';
+import {DECREASE, INCREASE} from './constants';
 
 export function increase(n) {
     return {
-        type: INCREASE,
+        type:   INCREASE,
         amount: n
     }
 }
 
 export function decrease(n) {
     return {
-        type: DECREASE,
+        type:   DECREASE,
         amount: n
     }
 }

@@ -12,7 +12,8 @@ const currentUserReducer = (state = initialState, action) => {
         case UPDATE_CURRENT_USER_AVATAR_SUCCESS:
             if (state.get('currentUser').id == action.userId) {
                 return state.set('avatarUrl', getAvatarUrl(action.userId));
-            } else {
+            }
+            else {
                 break;
             }
     }

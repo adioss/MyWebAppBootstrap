@@ -1,6 +1,7 @@
 import {createListParams} from './ApiUtils';
 import {DELETE, GET, POST, PUT} from './ApiConstants';
 import Fetch from './Fetch';
+
 const ENTERPRISE_API_URL = '/api/enterprises';
 
 export function list(success, page, sort) {
@@ -18,11 +19,10 @@ export function get(id, success) {
 
 export function save(enterprise, success) {
     new Fetch(ENTERPRISE_API_URL, {
-        method: enterprise.id != null && enterprise.id != undefined ? PUT : POST,
-            headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(enterprise)
-        }
-    ).then(success);
+        method:  enterprise.id != null && enterprise.id != undefined ? PUT : POST,
+        headers: {'Content-Type': 'application/json'},
+        body:    JSON.stringify(enterprise)
+    }).then(success);
 }
 
 export function remove(id, success) {

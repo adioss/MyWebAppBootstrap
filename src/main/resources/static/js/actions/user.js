@@ -1,8 +1,8 @@
-import {LIST_USER_SUCCESS, GET_USER_SUCCESS, CREATE_USER} from './constants';
+import {CREATE_USER, GET_USER_SUCCESS, LIST_USER_SUCCESS} from './constants';
 
 export function listUsersSuccess(users) {
     return {
-        type: LIST_USER_SUCCESS,
+        type:  LIST_USER_SUCCESS,
         users: users
     }
 }

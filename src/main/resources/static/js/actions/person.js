@@ -1,15 +1,15 @@
-import {LIST_PERSON_SUCCESS, GET_PERSON_SUCCESS, CREATE_PERSON} from './constants';
+import {CREATE_PERSON, GET_PERSON_SUCCESS, LIST_PERSON_SUCCESS} from './constants';
 
 export function listPersonsSuccess(persons) {
     return {
-        type: LIST_PERSON_SUCCESS,
+        type:    LIST_PERSON_SUCCESS,
         persons: persons
     }
 }
 
 export function getPersonSuccess(person) {
     return {
-        type: GET_PERSON_SUCCESS,
+        type:   GET_PERSON_SUCCESS,
         person: person
     }
 }

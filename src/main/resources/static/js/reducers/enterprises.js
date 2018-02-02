@@ -1,10 +1,11 @@
 import {Map} from 'immutable';
-import {
-    LIST_ENTERPRISE_SUCCESS, GET_ENTERPRISE_SUCCESS, SAVE_ENTERPRISE, CREATE_ENTERPRISE
-} from '../actions/constants';
+import {CREATE_ENTERPRISE, GET_ENTERPRISE_SUCCESS, LIST_ENTERPRISE_SUCCESS, SAVE_ENTERPRISE} from '../actions/constants';
 import {resetStateBeforeLocationChange} from './reducerUtils';
 
-const initialState = Map({enterprises: Map(), enterprise: Map()});
+const initialState = Map({
+    enterprises: Map(),
+    enterprise:  Map()
+});
 
 const enterpriseReducer = (state = initialState, action) => {
     state = resetStateBeforeLocationChange('/enterprise/', state, initialState, action);
