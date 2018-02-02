@@ -1,16 +1,13 @@
 /* eslint-disable */
-//noinspection Eslint
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-//noinspection Eslint
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-//noinspection Eslint
+
 module.exports = {
-    // eslint-disable-line
     entry:   __dirname + '/src/main/resources/static/js/main.js',
     devtool: 'eval-source-map',
     output:  {
-        filename: 'main.js', // eslint-disable-line
+        filename: 'main.js',
         path:     __dirname + '/target/classes/static/dist/' // copy to target
     },
     module:  {
