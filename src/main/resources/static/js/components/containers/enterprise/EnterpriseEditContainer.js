@@ -25,7 +25,7 @@ class EnterpriseEditContainer extends Component {
     render() {
         return ( //
             <div>
-                <EnterpriseEdit {...this.props.enterprise} showError={this.props.showError} save={this.props.save} remove={this.props.remove}
+                <EnterpriseEdit enterprise={this.props.enterprise} showError={this.props.showError} save={this.props.save} remove={this.props.remove}
                                 cancel={this.props.cancel}/>
             </div>
         );
