@@ -1,57 +1,36 @@
-//noinspection Eslint
-const path = require('path');
-//noinspection Eslint
+/* eslint-disable */
 const webpack = require('webpack');
-//noinspection Eslint
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-//noinspection Eslint
-const node_modules = path.resolve(__dirname, 'node_modules');
-//noinspection Eslint
-const app_modules = path.resolve(__dirname, 'src/main/resources/static/js');
 
-const PATHS = {
-    reactLib: path.resolve(node_modules, 'react/lib/ReactWithAddons.js'),
-    reactDomLib: path.resolve(node_modules, 'react-dom/index.js')
-};
-//noinspection Eslint
 module.exports = {
-    context: "src/main/resources/static",
-    entry: "main.js",
-    devtool: "cheap-module-source-map",
-    output: {
-        filename: "main.js",
-        path: "src/main/resources/static/dist/" // copy to target
+    entry:   'main.js',
+    output:  {
+        filename: 'main.js',
+        path:     __dirname + '/src/main/resources/static/dist/' // copy to source
     },
-    resolveLoader: {
-        root: path.join(__dirname, 'node_modules')
-    },
-    resolve: {
-        root: [app_modules],
-        alias: {
-            'react$': PATHS.reactLib
-        }
-    },
-    module: {
-        loaders: [
+    module:  {
+        rules: [
             {
-                test: /\.js$/,
+                test:    /\.js$/,
                 exclude: /node_modules/,
-                loaders: ["babel"]
-            },
-            {
-                test: /\.css$/,
+                use:     {
+                    loader: 'babel'
+                }
+            }, {
+                test:    /\.css$/,
                 exclude: /node_modules/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+                use:     ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use:      'css-loader'
+                })
             }
         ]
     },
     plugins: [
         new webpack.DefinePlugin({
-                'process.env': {
-                    'NODE_ENV': JSON.stringify('"production"')
-                }
+            'process.env': {
+                'NODE_ENV': JSON.stringify('"production"')
             }
-        ),
-        new ExtractTextPlugin("bundle.css", {allChunks: true})
+        }), new ExtractTextPlugin('bundle.css', {allChunks: true})
     ]
 };
