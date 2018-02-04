@@ -7,7 +7,7 @@ class EnterpriseList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            enterprises: props.enterprises
+            enterprises: {}
         };
     }
 
@@ -36,7 +36,7 @@ class EnterpriseList extends Component {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {this.props.enterprises !== undefined && this.props.enterprises.content !== undefined ? //
+                        {this.props.enterprises.content !== undefined ? //
                          this.props.enterprises.content.map((enterprise) => //
                              (<Table.Row onClick={() => this.props.edit(enterprise.id)} key={enterprise.id}>
                                  <Table.Cell>{enterprise.id}</Table.Cell>
@@ -79,10 +79,6 @@ EnterpriseList.propTypes = {
     list:        PropTypes.func.isRequired,
     edit:        PropTypes.func.isRequired,
     create:      PropTypes.func.isRequired
-};
-
-EnterpriseList.defaultProps = {
-    enterprises: null
 };
 
 export default EnterpriseList;

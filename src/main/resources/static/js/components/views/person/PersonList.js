@@ -7,7 +7,7 @@ class PersonList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            persons: props.persons
+            persons: {}
         };
     }
 
@@ -37,7 +37,7 @@ class PersonList extends Component {
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {this.props.persons !== undefined && this.props.persons.content !== undefined ? //
+                        {this.props.persons.content !== undefined ? //
                          this.props.persons.content.map((person) => //
                              (<Table.Row onClick={() => this.props.edit(person.id)} key={person.id}>
                                  <Table.Cell>{person.id}</Table.Cell>
@@ -81,10 +81,6 @@ PersonList.propTypes = {
     list:    PropTypes.func.isRequired,
     edit:    PropTypes.func.isRequired,
     create:  PropTypes.func.isRequired
-};
-
-PersonList.defaultProps = {
-    persons: null
 };
 
 export default injectIntl(PersonList);
