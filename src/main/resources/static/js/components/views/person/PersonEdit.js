@@ -1,56 +1,76 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
-import {Button, Form, Header, Icon} from 'semantic-ui-react';
+import {Button, Dropdown, Form, Header, Icon} from 'semantic-ui-react';
 import {search} from '../../../apis/EnterpriseApi';
 
 class PersonEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id:          props.id,
-            name:        props.name,
-            url:         props.url,
-            enterprise:  props.enterprise,
+            person:      {
+                id:         null,
+                name:       '',
+                url:        '',
+                enterprise: {
+                    id:    -1,
+                    name:  '',
+                    url:   '',
+                    key:   -1,
+                    text:  '',
+                    value: -1,
+                }
+            },
             enterprises: []
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.enterprise !== null) {
-            nextProps.enterprise.label = nextProps.enterprise.name;
+        const person = nextProps.person;
+        if (nextProps.person.enterprise !== null && nextProps.person.enterprise !== undefined) {
+            this.fetchEnterprise({'searchQuery': nextProps.person.enterprise.name});
+            person.enterprise.key = nextProps.person.enterprise.id;
+            person.enterprise.text = nextProps.person.enterprise.name;
+            person.enterprise.value = nextProps.person.enterprise.id;
+            this.setState({enterprises: [person.enterprise]});
         }
-        this.setState(nextProps);
+        this.setState({
+            person
+        });
     }
 
     onSaveClicked() {
-        this.props.save(this.state);
+        this.props.save(this.state.person);
     }
 
     handleChange(item, event) {
-        this.setState({[item]: event.target.value});
+        const person = Object.assign({}, this.state.person, {[item]: event.target.value});
+        this.setState({person});
     }
 
-    handleEnterpriseChange(enterprise) {
-        this.setState({'enterprise': enterprise});
+    handleEnterpriseChange(data) {
+        const enterprise = data.options.find((element) => element.value === data.value);
+        const person = Object.assign({}, this.state.person, {enterprise});
+        this.setState({person});
     }
 
     fetchEnterprise(filter) {
-        this.setState({search: filter});
-        if (filter.length > 0) {
-            search(filter, //
-                (result) => {
-                    result = result.map((item) => {
-                        item.label = item.name;
-                        return item;
-                    });
-                    this.setState({enterprises: result});
+        this.setState({search: filter.searchQuery});
+        search(filter.searchQuery, //
+            (result) => {
+                result = result.map((item) => {
+                    item.key = item.value = item.id;
+                    item.text = item.name;
+                    return item;
                 });
-        }
+                this.setState({enterprises: result});
+            });
     }
 
     render() {
         const {formatMessage} = this.props.intl;
+        const {enterprise} = this.state.person;
+        const {enterprises} = this.state;
         return (
             <div>
                 <Header as='h2'>
@@ -63,25 +83,25 @@ class PersonEdit extends Component {
                 <Form>
                     <Form.Field>
                         <label><FormattedMessage id='person.edition.label.name.value' defaultMessage='Name'/></label>
-                        <input type='text' value={this.state.name} required onChange={this.handleChange.bind(this, 'name')}
+                        <input type='text' value={this.state.person.name} required onChange={this.handleChange.bind(this, 'name')}
                                placeholder={formatMessage({id: 'person.edition.input.name.placeholder'})}/>
                     </Form.Field>
                     <Form.Field>
                         <label><FormattedMessage id='person.edition.label.url.value' defaultMessage='Url'/></label>
-                        <input type='url' value={this.state.url} required pattern='https?://.+' onChange={this.handleChange.bind(this, 'url')}
+                        <input type='url' value={this.state.person.url} required pattern='https?://.+' onChange={this.handleChange.bind(this, 'url')}
                                placeholder={formatMessage({id: 'person.edition.input.url.placeholder'})}/>
                     </Form.Field>
                     <Form.Field>
                         <label><FormattedMessage id='person.edition.label.enterprise.value' defaultMessage='Enterprise'/></label>
-                        {/*<SimpleSelect uid={(item) => item.name} ref='select' value={this.state.enterprise} options={this.state.enterprises}*/}
-                        {/*placeholder={formatMessage({id: 'person.edition.input.enterprise.placeholder'})}*/}
-                        {/*onValueChange={(selected) => this.handleEnterpriseChange(selected)}*/}
-                        {/*onSearchChange={(filter) => this.fetchEnterprise(filter)}/>*/}
+                        <Dropdown options={enterprises} value={enterprise.value}
+                                  fluid search selection placeholder={formatMessage({id: 'person.edition.input.enterprise.placeholder'})}
+                                  onChange={(event, data) => this.handleEnterpriseChange(data)}
+                                  onSearchChange={(event, data) => this.fetchEnterprise(data)}/>
                     </Form.Field>
                     <Button primary onClick={() => this.onSaveClicked()}>
                         <FormattedMessage id='global.button.save.label' defaultMessage='Save'/>
                     </Button>
-                    <Button negative onClick={() => this.props.remove(this.state.id)} className={this.state.id === null ? 'hidden' : ''}>
+                    <Button negative onClick={() => this.props.remove(this.state.person.id)} className={this.state.person === null ? 'hidden' : ''}>
                         <FormattedMessage id='global.button.delete.label' defaultMessage='Delete' className='hidden'/>
                     </Button>
                     <Button onClick={() => this.props.cancel()}>
@@ -94,27 +114,21 @@ class PersonEdit extends Component {
 }
 
 PersonEdit.propTypes = {
-    intl:       intlShape.isRequired,
-    id:         PropTypes.number,
-    name:       PropTypes.string,
-    label:      PropTypes.string,
-    url:        PropTypes.string,
-    enterprise: PropTypes.shape({
-        id:    PropTypes.number.isRequired,
-        name:  PropTypes.string.isRequired,
-        label: PropTypes.string,
-        url:   PropTypes.string.isRequired
+    intl:   intlShape.isRequired,
+    person: PropTypes.shape({
+        id:         PropTypes.number,
+        name:       PropTypes.string,
+        url:        PropTypes.string,
+        enterprise: PropTypes.shape({
+            id:    PropTypes.number.isRequired,
+            name:  PropTypes.string.isRequired,
+            url:   PropTypes.string,
+            value: PropTypes.number
+        })
     }),
-    save:       PropTypes.func.isRequired,
-    cancel:     PropTypes.func.isRequired,
-    remove:     PropTypes.func.isRequired
-};
-
-PersonEdit.defaultProps = {
-    id:         null,
-    name:       '',
-    url:        '',
-    enterprise: null
+    save:   PropTypes.func.isRequired,
+    cancel: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired
 };
 
 export default injectIntl(PersonEdit);

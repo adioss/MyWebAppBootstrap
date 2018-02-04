@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
-import {Button, Form, Header, Icon} from 'semantic-ui-react';
+import {Button, Dropdown, Form, Header, Icon} from 'semantic-ui-react';
 import {ADMIN_ROLE, ENGLISH_LANGUAGE, FRENCH_LANGUAGE, USER_ROLE} from '../../../actions/constants';
 import {changePassword} from '../../../apis/UserApi';
 import AvatarEditor from './AvatarEditor';
@@ -9,13 +9,13 @@ import PasswordPopup from './PasswordPopup';
 
 const roleDataProvider = [
     {
-        'id':    '0',
-        'name':  ADMIN_ROLE,
-        'label': ADMIN_ROLE
+        'key':   '0',
+        'text':  ADMIN_ROLE,
+        'value': ADMIN_ROLE
     }, {
-        'id':    '1',
-        'name':  USER_ROLE,
-        'label': USER_ROLE
+        'key':   '1',
+        'text':  USER_ROLE,
+        'value': USER_ROLE
     }
 ];
 
@@ -50,23 +50,20 @@ class UserEdit extends Component {
     }
 
     getInitialRoleValues() {
-        if (this.state.roles == null) {
+        if (this.state.roles === null || this.state.roles === undefined) {
             return [];
         }
         return roleDataProvider
             .filter((element) => this.state.roles.indexOf(element.name) > -1)
             .map((item) => {
-                item.label = item.name;
+                item.key = item.value = item.name;
+                item.text = item.name;
                 return item;
             });
     }
 
     handleRolesChange(selectedRoles) {
-        let roles = [];
-        if (selectedRoles != null) {
-            roles = selectedRoles.map((element) => element.name);
-        }
-        this.setState({'roles': roles});
+        this.setState({'roles': selectedRoles.value});
     }
 
     onChangePasswordClick() {
@@ -75,6 +72,7 @@ class UserEdit extends Component {
 
     render() {
         const {formatMessage} = this.props.intl;
+        const {roles} = this.state;
         return (
             <div>
                 <Header as='h2'>
@@ -108,9 +106,9 @@ class UserEdit extends Component {
                     </Form.Field>
                     <Form.Field className={this.state.isProfileEdition ? 'hidden' : ''}>
                         <label><FormattedMessage id='user.edition.label.roles.value' defaultMessage='Roles'/></label>
-                        {/*TODO */}
-                        {/*<MultiSelect options={roleDataProvider} placeholder={formatMessage({id: 'user.edition.input.role.placeholder'})}*/}
-                        {/*defaultValues={this.getInitialRoleValues()} onValuesChange={(selectedRoles) => this.handleRolesChange(selectedRoles)}/>*/}
+                        <Dropdown options={roleDataProvider} value={roles}
+                                  fluid search selection multiple placeholder={formatMessage({id: 'user.edition.input.role.placeholder'})}
+                                  onChange={(event, data) => this.handleRolesChange(data)}/>
                     </Form.Field>
                     <Form.Field className={this.state.id === null ? 'hidden' : ''}>
                         <label><FormattedMessage id='user.edition.password.change.label' defaultMessage='Password'/></label>

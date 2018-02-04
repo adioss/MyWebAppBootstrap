@@ -25,7 +25,7 @@ class PersonEditContainer extends Component {
     render() {
         return ( //
             <div>
-                <PersonEdit {...this.props.person} showError={this.props.showError} save={this.props.save} remove={this.props.remove}
+                <PersonEdit person={this.props.person} showError={this.props.showError} save={this.props.save} remove={this.props.remove}
                             cancel={this.props.cancel}/>
             </div>
         );
