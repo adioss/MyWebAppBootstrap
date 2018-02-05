@@ -1,17 +1,13 @@
 package com.adioss.bootstrap.service;
 
-import com.adioss.bootstrap.domain.User;
-import com.adioss.bootstrap.repository.UserRepository;
-import com.adioss.bootstrap.web.dto.UserDTO;
-import com.google.common.base.Strings;
+import java.util.*;
+import java.util.stream.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import com.adioss.bootstrap.domain.User;
+import com.adioss.bootstrap.repository.UserRepository;
+import com.adioss.bootstrap.web.dto.UserDTO;
 
 import static java.lang.String.format;
 
@@ -34,14 +30,12 @@ public class UserService {
     }
 
     public Collection<User> getAllUsers() {
-        return StreamSupport.stream(userRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+        return StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
     public User create(UserDTO userDTO) {
         String passwordHash = new BCryptPasswordEncoder().encode(userDTO.getPassword());
-        User user = new User(userDTO.getUsername(), userDTO.getEmail(), passwordHash, userDTO.getLanguage(),
-                userDTO.getRoles());
+        User user = new User(userDTO.getUsername(), userDTO.getEmail(), passwordHash, userDTO.getLanguage(), userDTO.getRoles());
         return userRepository.save(user);
     }
 
@@ -50,7 +44,7 @@ public class UserService {
         if (user == null) {
             throw new IllegalArgumentException(format("No user found with id '%d'", id));
         }
-        if (Strings.isNullOrEmpty(newPassword) || Strings.isNullOrEmpty(newPasswordValidation)) {
+        if (newPassword == null || newPassword.isEmpty() || newPasswordValidation == null || newPasswordValidation.isEmpty()) {
             throw new IllegalArgumentException("user.password.error.value.null");
         }
         if (!newPassword.equals(newPasswordValidation)) {

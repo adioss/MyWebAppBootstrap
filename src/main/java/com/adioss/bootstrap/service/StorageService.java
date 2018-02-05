@@ -1,9 +1,8 @@
 package com.adioss.bootstrap.service;
 
-import com.adioss.bootstrap.domain.Avatar;
-import com.adioss.bootstrap.domain.User;
-import com.adioss.bootstrap.repository.AvatarRepository;
-import com.google.common.io.ByteStreams;
+import java.io.*;
+import java.nio.file.Files;
+import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Optional;
+import com.adioss.bootstrap.domain.Avatar;
+import com.adioss.bootstrap.domain.User;
+import com.adioss.bootstrap.repository.AvatarRepository;
 
 @Service
 public class StorageService {
@@ -49,7 +47,7 @@ public class StorageService {
     private byte[] getDefaultAvatar() {
         final Resource defaultAvatar = appContext.getResource("classpath:static/assets/img/unknown-user.gif");
         try {
-            return ByteStreams.toByteArray(new FileInputStream(defaultAvatar.getFile()));
+            return Files.readAllBytes(defaultAvatar.getFile().toPath());
         } catch (IOException e) {
             log.error("Impossible to load default avatar image.");
         }

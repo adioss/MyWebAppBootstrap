@@ -1,6 +1,6 @@
 package com.adioss.bootstrap.config;
 
-import com.google.common.base.Strings;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.DefaultErrorAttributes;
 import org.springframework.context.MessageSource;
@@ -8,11 +8,6 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class ResponseDefaultErrorAttributes extends DefaultErrorAttributes {
@@ -37,7 +32,7 @@ public class ResponseDefaultErrorAttributes extends DefaultErrorAttributes {
         } catch (NoSuchMessageException e) {
             //
         }
-        if (!Strings.isNullOrEmpty(message)) {
+        if (message != null && !message.isEmpty()) {
             List<Map<String, String>> errors = new ArrayList<>();
             HashMap<String, String> error = new HashMap<>();
             error.put("defaultMessage", errorCode);
