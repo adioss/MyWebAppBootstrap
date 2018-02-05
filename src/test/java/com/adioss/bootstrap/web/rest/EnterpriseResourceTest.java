@@ -1,8 +1,7 @@
 package com.adioss.bootstrap.web.rest;
 
-import com.adioss.bootstrap.domain.Enterprise;
-import com.adioss.bootstrap.repository.EnterpriseRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.*;
+import java.util.stream.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +16,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import com.adioss.bootstrap.domain.Enterprise;
+import com.adioss.bootstrap.repository.EnterpriseRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -150,7 +145,6 @@ public class EnterpriseResourceTest {
     public void shouldSearchEnterprise() throws Exception {
         // Given
         enterpriseRepository.save(enterpriseListTest());
-        List<Enterprise> enterprises = getSavedEnterprises();
 
         // When
         ResultActions perform = this.mockMvc

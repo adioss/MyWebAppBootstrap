@@ -153,7 +153,7 @@ Global.propTypes = {
         visible:  PropTypes.boolean,
         content:  PropTypes.string,
         messages: PropTypes.arrayOf(PropTypes.any),
-        status:   PropTypes.string.isRequired
+        status:   PropTypes.string
     }),
     menuActiveItem: PropTypes.string
 };
