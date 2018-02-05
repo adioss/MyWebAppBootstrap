@@ -9,9 +9,11 @@ env:
   - NODE_VERSION=6.9.5
   - NPM_VERSION=3.10.10
 
+before_install:
+   - npm i -g npm@$NPM_VERSION
+
 install:
   - nvm install $NODE_VERSION
-  - npm i -g npm@$NPM_VERSION
   - npm install
   - npm install -g webpack
 
