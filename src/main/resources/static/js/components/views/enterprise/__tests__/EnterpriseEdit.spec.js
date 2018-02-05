@@ -28,16 +28,21 @@ describe('Enterprise edit component', () => {
         const expectedName = 'Test name';
         const expectedUrl = 'Test url';
         props = {
-            id:     expectedId,
-            name:   expectedName,
-            url:    expectedUrl,
-            save:   jest.fn(),
-            cancel: jest.fn(),
-            remove: jest.fn()
+            enterprise: {
+                id:   expectedId,
+                name: expectedName,
+                url:  expectedUrl
+            },
+            save:       jest.fn(),
+            cancel:     jest.fn(),
+            remove:     jest.fn()
         };
 
+        console.log(enzymeWrapper.html());
+
         // When
-        enzymeWrapper = mountWithIntl(<EnterpriseEdit {...props}/>, {});
+        enzymeWrapper = mountWithIntl(<EnterpriseEdit save={props.save} remove={props.remove} cancel={props.cancel}/>, {});
+        enzymeWrapper.setProps({enterprise: props.enterprise});
 
         // Then
         expect(enzymeWrapper.find('input').at(0).props().value).toEqual(expectedName);
@@ -81,16 +86,19 @@ describe('Enterprise edit component', () => {
         const expectedName = 'Test name';
         const expectedUrl = 'Test url';
         props = {
-            id:     expectedId,
-            name:   'previous value',
-            url:    'previous value',
-            save:   jest.fn(),
-            cancel: jest.fn(),
-            remove: jest.fn()
+            enterprise: {
+                id:   expectedId,
+                name: 'previous value',
+                url:  'previous value'
+            },
+            save:       jest.fn(),
+            cancel:     jest.fn(),
+            remove:     jest.fn()
         };
-        enzymeWrapper = mountWithIntl(<EnterpriseEdit {...props}/>, {});
 
         // When
+        enzymeWrapper = mountWithIntl(<EnterpriseEdit save={props.save} remove={props.remove} cancel={props.cancel}/>, {});
+        enzymeWrapper.setProps({enterprise: props.enterprise});
         enzymeWrapper.find('input').at(0).simulate('change', {target: {value: expectedName}});
         enzymeWrapper.find('input').at(1).simulate('change', {target: {value: expectedUrl}});
         enzymeWrapper.find('button').at(0).simulate('click');

@@ -8,7 +8,7 @@ class EnterpriseEdit extends Component {
         super(props);
         this.state = {
             enterprise: {
-                id:   -1,
+                id:   undefined,
                 name: '',
                 url:  ''
             }

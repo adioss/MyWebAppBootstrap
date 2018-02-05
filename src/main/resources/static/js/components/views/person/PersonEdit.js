@@ -12,14 +12,7 @@ class PersonEdit extends Component {
                 id:         null,
                 name:       '',
                 url:        '',
-                enterprise: {
-                    id:    -1,
-                    name:  '',
-                    url:   '',
-                    key:   -1,
-                    text:  '',
-                    value: -1,
-                }
+                enterprise: {}
             },
             enterprises: []
         };
@@ -28,7 +21,7 @@ class PersonEdit extends Component {
     componentWillReceiveProps(nextProps) {
         const person = nextProps.person;
         if (nextProps.person.enterprise !== null && nextProps.person.enterprise !== undefined) {
-            this.fetchEnterprise({'searchQuery': nextProps.person.enterprise.name});
+            // this.fetchEnterprise({'searchQuery': nextProps.person.enterprise.name});
             person.enterprise.key = nextProps.person.enterprise.id;
             person.enterprise.text = nextProps.person.enterprise.name;
             person.enterprise.value = nextProps.person.enterprise.id;
@@ -93,10 +86,15 @@ class PersonEdit extends Component {
                     </Form.Field>
                     <Form.Field>
                         <label><FormattedMessage id='person.edition.label.enterprise.value' defaultMessage='Enterprise'/></label>
-                        <Dropdown options={enterprises} value={enterprise.value}
-                                  fluid search selection placeholder={formatMessage({id: 'person.edition.input.enterprise.placeholder'})}
-                                  onChange={(event, data) => this.handleEnterpriseChange(data)}
-                                  onSearchChange={(event, data) => this.fetchEnterprise(data)}/>
+                        {enterprise !== undefined ? //
+                         <Dropdown options={enterprises} value={enterprise.value} fluid search selection
+                                   placeholder={formatMessage({id: 'person.edition.input.enterprise.placeholder'})}
+                                   onChange={(event, data) => this.handleEnterpriseChange(data)}
+                                   onSearchChange={(event, data) => this.fetchEnterprise(data)}/> : //
+                         <Dropdown options={enterprises} fluid search selection placeholder={formatMessage({id: 'person.edition.input.enterprise.placeholder'})}
+                                   onChange={(event, data) => this.handleEnterpriseChange(data)}
+                                   onSearchChange={(event, data) => this.fetchEnterprise(data)}/>}
+
                     </Form.Field>
                     <Button primary onClick={() => this.onSaveClicked()}>
                         <FormattedMessage id='global.button.save.label' defaultMessage='Save'/>
@@ -120,8 +118,8 @@ PersonEdit.propTypes = {
         name:       PropTypes.string,
         url:        PropTypes.string,
         enterprise: PropTypes.shape({
-            id:    PropTypes.number.isRequired,
-            name:  PropTypes.string.isRequired,
+            id:    PropTypes.number,
+            name:  PropTypes.string,
             url:   PropTypes.string,
             value: PropTypes.number
         })

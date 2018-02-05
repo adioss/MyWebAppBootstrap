@@ -17,7 +17,7 @@ describe('Person edit component', () => {
 
     it('should render self and sub-components', () => {
         expect(enzymeWrapper.find('div.sub.header').text()).toBe('Person edition');
-        expect(enzymeWrapper.find('div').length).toBe(11);
+        expect(enzymeWrapper.find('div').length).toBe(10);
         expect(enzymeWrapper.find('form').length).toBe(1);
         expect(enzymeWrapper.find('button').length).toBe(3);
     });
@@ -28,16 +28,21 @@ describe('Person edit component', () => {
         const expectedName = 'Test name';
         const expectedUrl = 'Test url';
         props = {
-            id:     expectedId,
-            name:   expectedName,
-            url:    expectedUrl,
+            person: {
+                id:         expectedId,
+                name:       expectedName,
+                url:        expectedUrl,
+                enterprise: {}
+            },
+
             save:   jest.fn(),
             cancel: jest.fn(),
             remove: jest.fn()
         };
 
         // When
-        enzymeWrapper = mountWithIntl(<PersonEdit {...props}/>, {});
+        enzymeWrapper = mountWithIntl(<PersonEdit save={props.save} remove={props.remove} cancel={props.cancel}/>, {});
+        enzymeWrapper.setProps({person: props.person});
 
         // Then
         expect(enzymeWrapper.find('input').at(0).props().value).toEqual(expectedName);
@@ -69,11 +74,10 @@ describe('Person edit component', () => {
         const saveMethodParam = props.save.mock.calls[0][0];
         expect(saveMethodParam).toBeDefined();
         expect(saveMethodParam).toEqual({
-            'id':          null,
-            'name':        expectedName,
-            'url':         expectedUrl,
-            'enterprise':  null,
-            'enterprises': []
+            'id':         null,
+            'name':       expectedName,
+            'url':        expectedUrl,
+            'enterprise': {}
         });
     });
 
@@ -83,15 +87,23 @@ describe('Person edit component', () => {
         const expectedName = 'Test name';
         const expectedUrl = 'Test url';
         props = {
-            id:     expectedId,
-            name:   'previous value',
-            url:    'previous value',
+            person: {
+                id:         expectedId,
+                name:       'previous value',
+                url:        'previous value',
+                enterprise: {
+                    'id':   expectedId,
+                    'name': expectedName
+                }
+            },
             save:   jest.fn(),
             cancel: jest.fn(),
             remove: jest.fn()
         };
-        enzymeWrapper = mountWithIntl(<PersonEdit {...props}/>, {});
+
         // When
+        enzymeWrapper = mountWithIntl(<PersonEdit save={props.save} remove={props.remove} cancel={props.cancel}/>, {});
+        enzymeWrapper.setProps({person: props.person});
         enzymeWrapper.find('input').at(0).simulate('change', {target: {value: expectedName}});
         enzymeWrapper.find('input').at(1).simulate('change', {target: {value: expectedUrl}});
         enzymeWrapper.find('button').at(0).simulate('click');
@@ -102,11 +114,16 @@ describe('Person edit component', () => {
         const saveMethodParam = props.save.mock.calls[0][0];
         expect(saveMethodParam).toBeDefined();
         expect(saveMethodParam).toEqual({
-            'id':          expectedId,
-            'name':        expectedName,
-            'url':         expectedUrl,
-            'enterprise':  null,
-            'enterprises': []
+            'id':         expectedId,
+            'name':       expectedName,
+            'url':        expectedUrl,
+            'enterprise': {
+                'id':    expectedId,
+                'key':   expectedId,
+                'name':  expectedName,
+                text:    expectedName,
+                'value': expectedId
+            }
         });
     });
 });
