@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {updateIntl} from 'react-intl-redux';
 import {Grid, Icon, Image, Menu, Segment, Sidebar} from 'semantic-ui-react';
-import {customStyle, selectizeStyle} from '../../style/index';
+import {customStyle} from '../../style/index';
 import {ADMIN_ROLE, USER_ROLE} from '../../actions/constants';
 import {get} from '../../apis/CurrentUserApi';
 import {getStore} from '../../store';
@@ -28,8 +28,6 @@ import Dashboard from '../views/Dashboard';
 // prevent optimize import auto removal
 //noinspection JSUnusedLocalSymbols
 const customStyleImport = customStyle;
-//noinspection JSUnusedLocalSymbols
-const selectizeStyleImport = selectizeStyle;
 
 class Global extends Component {
     constructor(props) {
