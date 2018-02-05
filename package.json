@@ -33,7 +33,7 @@
         "react-router-redux": "4.0.8",
         "redux": "3.7.2",
         "semantic-ui-css": "2.2.14",
-        "semantic-ui-react": "0.77.2"
+        "semantic-ui-react": "0.78.0"
     },
     "devDependencies": {
         "babel-core": "6.26.0",
@@ -47,7 +47,7 @@
         "css-loader": "0.28.9",
         "enzyme": "3.3.0",
         "enzyme-adapter-react-16": "^1.1.1",
-        "eslint": "4.16.0",
+        "eslint": "4.17.0",
         "eslint-loader": "1.9.0",
         "eslint-plugin-classes": "0.1.1",
         "eslint-plugin-import": "2.8.0",
