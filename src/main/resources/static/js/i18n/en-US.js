@@ -14,7 +14,7 @@ export default {
         'global.list.column.header.id':                '#', // menu
         'menu.logout.alt.message':                     'Logout',
         'menu.global.title':                           'COMPANY',
-        'menu.example.link':                           'EXAMPLE',
+        'menu.dashboard.link':                         'DASHBOARD',
         'menu.enterprises.link':                       'ENTERPRISES',
         'menu.persons.link':                           'PERSONS',
         'menu.users.link':                             'USERS', // dashboard page
@@ -54,7 +54,7 @@ export default {
         'person.edition.error.url.null':               'Person url can not be null.',
         'person.edition.error.url.size':               'Person url size should be >3 and <120.',
         'person.edition.error.url.invalid':            'Person url is not valid.', // user list
-        'person.title':                                'Person',
+        'user.title':                                  'User',
         'user.list.title':                             'User list',
         'user.list.column.name.label':                 'Name',
         'user.list.column.email.label':                'Email',

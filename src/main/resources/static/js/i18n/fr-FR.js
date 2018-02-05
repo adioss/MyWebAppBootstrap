@@ -6,22 +6,22 @@ export default {
     locale:   'fr',
     messages: {
         // global
-        'global.illegal.argument.error':               'Illegal argument. Impossible to process this operation.',
-        'global.button.new.label':                     'Créer',
-        'global.button.save.label':                    'Sauver',
-        'global.button.delete.label':                  'Supprimer',
-        'global.button.cancel.label':                  'Annuler',
-        'global.list.column.header.id':                '#', // menu
-        'menu.logout.alt.message':                     'Logout',
-        'menu.global.title':                           'COMPAGNIE',
-        'menu.example.link':                           'EXEMPLE',
-        'menu.enterprises.link':                       'ENTREPRISES',
-        'menu.persons.link':                           'PERSONNES',
-        'menu.users.link':                             'UTILISATEURS', // home page
-        'dashboard.title':                             'Dashboard page',
-        'dashboard.example.label':                     'Ici un exemple basic de composant react:',
-        'dashboard.example.number.label':              'Nombre:',
-        'dashboard.example.button.increase.label':     'Augmenter',
+        'global.illegal.argument.error':           'Illegal argument. Impossible to process this operation.',
+        'global.button.new.label':                 'Créer',
+        'global.button.save.label':                'Sauver',
+        'global.button.delete.label':              'Supprimer',
+        'global.button.cancel.label':              'Annuler',
+        'global.list.column.header.id':            '#', // menu
+        'menu.logout.alt.message':                 'Logout',
+        'menu.global.title':                       'COMPAGNIE',
+        'menu.dashboard.link':                     'DASHBOARD',
+        'menu.enterprises.link':                   'ENTREPRISES',
+        'menu.persons.link':                       'PERSONNES',
+        'menu.users.link':                         'UTILISATEURS', // home page
+        'dashboard.title':                         'Dashboard page',
+        'dashboard.example.label':                 'Ici un exemple basic de composant react:',
+        'dashboard.example.number.label':          'Nombre:',
+        'dashboard.example.button.increase.label': 'Augmenter',
         'dashboard.example.button.decrease.label':     'Diminuer', // enterprise list
         'enterprise.title':                            'Entreprise',
         'enterprise.list.title':                       'List des entreprises',

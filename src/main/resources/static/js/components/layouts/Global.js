@@ -35,6 +35,7 @@ class Global extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            avatarUrl:      '/api/avatars/-1',
             isMenuExpanded: false,
             menuActiveItem: ''
         };
@@ -49,7 +50,10 @@ class Global extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState(Object.assign({}, this.state, {currentUser: nextProps.currentUser}));
+        this.setState(Object.assign({}, this.state, {
+            currentUser:    nextProps.currentUser,
+            menuActiveItem: nextProps.menuActiveItem
+        }));
     }
 
     render() {
@@ -61,12 +65,11 @@ class Global extends Component {
                         <Menu.Item onClick={() => this.setState({isMenuExpanded: !this.state.isMenuExpanded})}>
                             <Icon name='sidebar' size='large'/>
                         </Menu.Item>
-                        {/*onClick={() => this.setState({menuActiveItem: 'enterprise'})}*/}
                         <Menu.Item name='dashboard' active={this.state.menuActiveItem === 'dashboard'}>
                             <Link to='/'>
                                 <Icon name='dashboard' size='large'/>
                                 <div className={!this.state.isMenuExpanded ? 'hidden' : ''}><br/>
-                                    <FormattedMessage id='menu.enterprises.link' defaultMessage='Dashboard'/>
+                                    <FormattedMessage id='menu.dashboard.link' defaultMessage='Dashboard'/>
                                 </div>
                             </Link>
                         </Menu.Item>
@@ -138,32 +141,30 @@ class Global extends Component {
 }
 
 Global.propTypes = {
-    intl:        intlShape.isRequired,
-    currentUser: PropTypes.shape({
+    intl:           intlShape.isRequired,
+    currentUser:    PropTypes.shape({
         id:       PropTypes.number.isRequired,
         username: PropTypes.string.isRequired,
         email:    PropTypes.string.isRequired,
         roles:    PropTypes.arrayOf(PropTypes.oneOf([ADMIN_ROLE, USER_ROLE]))
     }),
-    avatarUrl:   PropTypes.string.isRequired,
-    popupData:   PropTypes.shape({
+    avatarUrl:      PropTypes.string,
+    popupData:      PropTypes.shape({
         visible:  PropTypes.boolean,
         content:  PropTypes.string,
         messages: PropTypes.arrayOf(PropTypes.any),
         status:   PropTypes.string.isRequired
     }),
-    children:    PropTypes.object
+    menuActiveItem: PropTypes.string
 };
 
-Global.defaultProps = {
-    avatarUrl: '/api/avatars/-1'
-};
-
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+    const menuActiveItem = ownProps.location.pathname.split('/')[1] === '' ? 'dashboard' : ownProps.location.pathname.split('/')[1];
     return {
         currentUser: state.currentUserReducer.get('currentUser'),
         avatarUrl:   state.currentUserReducer.get('avatarUrl'),
-        popupData:   state.alertPopupReducer.get('popupData')
+        popupData:   state.alertPopupReducer.get('popupData'),
+        menuActiveItem
     };
 };
 
