@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Message, Portal} from 'semantic-ui-react';
 import {injectIntl, intlShape} from 'react-intl';
+import {closePopup} from '../../actions/alertPopup';
+import {getStore} from '../../store';
 
 export const ERROR_TYPE = 'ERROR_TYPE';
 export const INFO_TYPE = 'INFO_TYPE';
@@ -36,7 +38,8 @@ class AlertPopup extends Component {
     }
 
     onDismissClicked() {
-        this.setState({visible: false})
+        this.setState({visible: false});
+        getStore().dispatch(closePopup());
     }
 
     extractMessages(errors, intl) {

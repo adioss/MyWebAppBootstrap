@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import {OPEN_ERROR_POPUP_WITH_CONTENT, OPEN_ERROR_POPUP_WITH_MESSAGES} from '../actions/alertPopup';
+import {CLOSE_POPUP, OPEN_ERROR_POPUP_WITH_CONTENT, OPEN_ERROR_POPUP_WITH_MESSAGES} from '../actions/alertPopup';
 import {ERROR_TYPE} from '../components/utils/AlertPopup';
 
 const initialState = Map();
@@ -19,6 +19,13 @@ const alertPopupReducer = (state = initialState, action) => {
                 'messages': action.messages,
                 'visible':  true,
                 'status':   ERROR_TYPE
+            });
+        case CLOSE_POPUP:
+            return state.set('popupData', {
+                'content':  undefined,
+                'messages': undefined,
+                'visible':  false,
+                'status':   undefined
             });
     }
     return state;
