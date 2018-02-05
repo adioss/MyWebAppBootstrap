@@ -57,7 +57,7 @@ public class EnterpriseResource extends AbstractResource {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> create(@Valid @RequestBody Enterprise enterprise) {
+    public ResponseEntity<HttpStatus> create(@Valid @RequestBody Enterprise enterprise) {
         if (enterprise.getId() != null) {
             throw new IllegalArgumentException("global.illegal.argument.error");
         }
@@ -66,7 +66,7 @@ public class EnterpriseResource extends AbstractResource {
     }
 
     @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> update(@Valid @RequestBody Enterprise enterprise) {
+    public ResponseEntity<HttpStatus> update(@Valid @RequestBody Enterprise enterprise) {
         if (enterpriseRepository == null) {
             throw new IllegalArgumentException("global.illegal.argument.error");
         }
@@ -75,7 +75,7 @@ public class EnterpriseResource extends AbstractResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> delete(@PathVariable("id") String id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") String id) {
         enterpriseRepository.delete(valueOf(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -1,9 +1,8 @@
 package com.adioss.bootstrap.web.rest;
 
-import com.adioss.bootstrap.domain.User;
-import com.adioss.bootstrap.repository.UserRepository;
-import com.adioss.bootstrap.service.UserService;
-import com.adioss.bootstrap.web.dto.UserPasswordDTO;
+import java.security.Principal;
+import java.util.*;
+import javax.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
-import java.security.Principal;
-import java.util.Objects;
-import java.util.Optional;
+import com.adioss.bootstrap.domain.User;
+import com.adioss.bootstrap.repository.UserRepository;
+import com.adioss.bootstrap.service.UserService;
+import com.adioss.bootstrap.web.dto.UserPasswordDTO;
 
 @RestController
 @RequestMapping("/api/profile")
@@ -31,7 +29,7 @@ public class ProfileResource {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> currentUser(Principal principal) {
+    public ResponseEntity<User> currentUser(Principal principal) {
         Optional<User> user = userRepository.findOneByUsername(principal.getName());
         if (!user.isPresent()) {
             throw new IllegalArgumentException();
@@ -39,10 +37,8 @@ public class ProfileResource {
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT,
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> update(Principal principal, @Valid @RequestBody User user) {
+    @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<HttpStatus> update(Principal principal, @Valid @RequestBody User user) {
         if (user.getId() == null) {
             throw new IllegalArgumentException("profile.edition.error");
         }
@@ -60,19 +56,15 @@ public class ProfileResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/changePassword",
-            method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> changePassword(Principal principal, @RequestBody UserPasswordDTO userPasswordDTO) {
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {
+            MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<HttpStatus> changePassword(Principal principal, @RequestBody UserPasswordDTO userPasswordDTO) {
         Optional<User> oneByUsername = userRepository.findOneByUsername(principal.getName());
         if (!oneByUsername.isPresent()) {
             throw new IllegalArgumentException("profile.password.edition.error");
         }
         userService.updatePassword(oneByUsername.get().getId(), //
-                userPasswordDTO.getNewPassword(), userPasswordDTO.getNewPasswordValidation());
+                                   userPasswordDTO.getNewPassword(), userPasswordDTO.getNewPasswordValidation());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }

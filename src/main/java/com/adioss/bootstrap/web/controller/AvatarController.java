@@ -1,22 +1,24 @@
 package com.adioss.bootstrap.web.controller;
 
-import com.adioss.bootstrap.domain.Role;
-import com.adioss.bootstrap.domain.User;
-import com.adioss.bootstrap.repository.UserRepository;
-import com.adioss.bootstrap.service.StorageService;
+import java.security.Principal;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.security.Principal;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import com.adioss.bootstrap.domain.Role;
+import com.adioss.bootstrap.domain.User;
+import com.adioss.bootstrap.repository.UserRepository;
+import com.adioss.bootstrap.service.StorageService;
 
 @Controller
 @RequestMapping("/api/avatars")
@@ -47,8 +49,8 @@ public class AvatarController {
     @RequestMapping(value = "/{userId}", method = RequestMethod.POST,
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> upload(Principal principal, @PathVariable String userId,
-                                    @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<HttpStatus> upload(Principal principal, @PathVariable String userId,
+                                             @RequestParam("file") MultipartFile file) {
         checkContentType(file.getContentType());
         Optional<User> user = userRepository.findOneByUsername(principal.getName());
         if (!user.isPresent()) {
@@ -67,7 +69,7 @@ public class AvatarController {
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE,
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> delete(Principal principal, @PathVariable String userId) {
+    public ResponseEntity<HttpStatus> delete(Principal principal, @PathVariable String userId) {
         Optional<User> user = userRepository.findOneByUsername(principal.getName());
         if (!user.isPresent()) {
             throw new IllegalArgumentException();

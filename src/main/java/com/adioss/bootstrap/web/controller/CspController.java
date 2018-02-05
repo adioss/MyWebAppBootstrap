@@ -16,7 +16,7 @@ public class CspController {
     private static final Logger log = LoggerFactory.getLogger(CspController.class);
 
     @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE})
-    public ResponseEntity<?> cspReport(@RequestBody String cspReport) {
+    public ResponseEntity<HttpStatus> cspReport(@RequestBody String cspReport) {
         log.error("CSP error: \n" + cspReport);
         return new ResponseEntity<>(HttpStatus.OK);
     }

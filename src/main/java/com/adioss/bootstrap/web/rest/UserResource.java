@@ -1,11 +1,7 @@
 package com.adioss.bootstrap.web.rest;
 
-import com.adioss.bootstrap.domain.Language;
-import com.adioss.bootstrap.domain.User;
-import com.adioss.bootstrap.repository.UserRepository;
-import com.adioss.bootstrap.service.UserService;
-import com.adioss.bootstrap.web.dto.UserDTO;
-import com.adioss.bootstrap.web.dto.UserPasswordDTO;
+import java.util.*;
+import javax.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,10 +10,17 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import com.adioss.bootstrap.domain.Language;
+import com.adioss.bootstrap.domain.User;
+import com.adioss.bootstrap.repository.UserRepository;
+import com.adioss.bootstrap.service.UserService;
+import com.adioss.bootstrap.web.dto.UserDTO;
+import com.adioss.bootstrap.web.dto.UserPasswordDTO;
 
 import static java.lang.Long.valueOf;
 
@@ -34,13 +37,12 @@ public class UserResource extends AbstractResource {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<User>> list(
-            @PageableDefault(size = 10, sort = {"username"}, direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<User>> list(@PageableDefault(size = 10, sort = {"username"}, direction = Sort.Direction.ASC) Pageable pageable) {
         return new ResponseEntity<>(userRepository.findAll(pageable), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> retrieve(@PathVariable("id") String id) {
+    public ResponseEntity<User> retrieve(@PathVariable("id") String id) {
         User user = userRepository.findOne(valueOf(id));
         if (user == null) {
             user = new User();
@@ -48,10 +50,8 @@ public class UserResource extends AbstractResource {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> create(@Valid @RequestBody User user) {
+    @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<HttpStatus> create(@Valid @RequestBody User user) {
         if (user.getId() != null) {
             throw new IllegalArgumentException("global.illegal.argument.error");
         }
@@ -59,17 +59,13 @@ public class UserResource extends AbstractResource {
         if (oneByUsername.isPresent()) {
             throw new IllegalArgumentException("user.edition.error.duplicate");
         }
-        userService
-                .create(new UserDTO(user.getUsername(), user.getEmail(), "default",
-                        user.getLanguage() != null ? user.getLanguage() : Language.ENGLISH,
-                        user.getRoles()));
+        userService.create(new UserDTO(user.getUsername(), user.getEmail(), "default", user.getLanguage() != null ? user.getLanguage() : Language.ENGLISH,
+                                       user.getRoles()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT,
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> update(@Valid @RequestBody User user) {
+    @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<HttpStatus> update(@Valid @RequestBody User user) {
         User userToUpdate = userRepository.findOne(user.getId());
         if (userToUpdate == null) {
             throw new IllegalArgumentException("global.illegal.argument.error");
@@ -82,19 +78,15 @@ public class UserResource extends AbstractResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> delete(@PathVariable("id") String id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") String id) {
         userRepository.delete(valueOf(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/changePassword/{id}",
-            method = RequestMethod.POST,
-            consumes = {MediaType.APPLICATION_JSON_VALUE},
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> changePassword(@PathVariable("id") String id,
-                                            @RequestBody UserPasswordDTO userPasswordDTO) {
-        userService.updatePassword(valueOf(id), userPasswordDTO.getNewPassword(),
-                userPasswordDTO.getNewPasswordValidation());
+    @RequestMapping(value = "/changePassword/{id}", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {
+            MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<HttpStatus> changePassword(@PathVariable("id") String id, @RequestBody UserPasswordDTO userPasswordDTO) {
+        userService.updatePassword(valueOf(id), userPasswordDTO.getNewPassword(), userPasswordDTO.getNewPasswordValidation());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
