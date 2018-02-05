@@ -48,11 +48,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/login", "/logout", "/cspReport", "/dist/**", "/assets/**").permitAll().antMatchers("/api/console/**")
-                .hasAnyAuthority(Role.ADMIN.toString()).anyRequest().hasAnyAuthority(Role.ADMIN.toString(), Role.USER.toString()).anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/", true).and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").and().csrf().ignoringAntMatchers("/cspReport").and()
-                .cors().and().headers().contentSecurityPolicy(getPolicyDirectives());
+        http.authorizeRequests() //
+                .antMatchers("/login", "/logout", "/cspReport", "/dist/**", "/assets/**").permitAll() //
+                .antMatchers("/api/console/**").hasAnyAuthority(Role.ADMIN.toString()) //
+                .anyRequest().hasAnyAuthority(Role.ADMIN.toString(), Role.USER.toString()) //
+                .anyRequest().authenticated() //
+                .and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/", true) //
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login") //
+                .invalidateHttpSession(true).clearAuthentication(true) //
+                .and().csrf().ignoringAntMatchers("/cspReport") //
+                .and().cors() //
+                .and().headers().contentSecurityPolicy(getPolicyDirectives());
     }
 
     @Autowired
