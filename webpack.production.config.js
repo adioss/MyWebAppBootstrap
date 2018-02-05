@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    entry:   'main.js',
+    entry: __dirname + '/src/main/resources/static/js/main.js',
     output:  {
         filename: 'main.js',
         path:     __dirname + '/src/main/resources/static/dist/' // copy to source
@@ -14,7 +14,7 @@ module.exports = {
                 test:    /\.js$/,
                 exclude: /node_modules/,
                 use:     {
-                    loader: 'babel'
+                    loader: 'babel-loader'
                 }
             }, {
                 test:    /\.css$/,
