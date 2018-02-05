@@ -14,7 +14,8 @@
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
         <spring.security.test.version>5.0.1.RELEASE</spring.security.test.version>
         <junit.dataprovider.version>1.13.1</junit.dataprovider.version>
-        <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
+        <maven.plugin.exec.version>1.6.0</maven.plugin.exec.version>
+        <maven.plugin.resources.version>3.0.2</maven.plugin.resources.version>
     </properties>
 
     <dependencyManagement>
@@ -156,7 +157,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>${maven.plugin.resources.version}</version>
                     <configuration>
                         <delimiters>
                             <delimiter>${resource.delimiter}</delimiter>
@@ -262,7 +263,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>${exec-maven-plugin.version}</version>
+                        <version>${maven.plugin.exec.version}</version>
                         <executions>
                             <execution>
                                 <id>install-js</id>
@@ -318,7 +319,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>${exec-maven-plugin.version}</version>
+                        <version>${maven.plugin.exec.version}</version>
                         <executions>
                             <execution>
                                 <id>install-js</id>
